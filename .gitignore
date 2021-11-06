@@ -25,3 +25,8 @@ obj/
 
 # Support for Project snippet scope
 !.vscode/*.code-snippets
+
+# Test Files
+**/*.jpg
+**/*.png
+**/*.txt
