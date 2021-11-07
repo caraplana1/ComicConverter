@@ -8,6 +8,9 @@ namespace DecompressorsTests
 {
     public class UnrarTests
     {
+        /// <summary>
+        ///  Test the unrar method with normal parameters
+        /// </summary>
         [Fact]
         public void UnrarTest()
         {
@@ -32,6 +35,9 @@ namespace DecompressorsTests
             Assert.True(extractedFiles.Length > 0);
         }
 
+        /// <summary>
+        /// Test if the unrar method can handle a file that doesn't exists
+        /// </summary>
         [Fact]
         public void RarFileNotExists()
         {
@@ -41,6 +47,9 @@ namespace DecompressorsTests
             Assert.Throws<FileNotFoundException>(() => Decompressor.UnRar(filePath, output));
         }
 
+        /// <summary>
+        /// Test if the unrar method can handle a non rar file.
+        /// </summary>
         [Fact]
         public void FileIsNotRar()
         {
@@ -49,26 +58,25 @@ namespace DecompressorsTests
             Assert.Throws<System.FormatException>(() => Decompressor.UnRar(filePath, "Folder"));
         }
 
+        /// <summary>
+        /// Invoke the method but with just one parameter
+        /// </summary>
         [Fact]
         public void EmptyOutputFolder()
         {
             string filePath = "../../../Samples/CROSSED Wish you were here.cbr";
-            List<string> filesExtracted;
 
             Decompressor.UnRar(filePath, "Folder");
             Decompressor.UnRar(filePath);
 
-            filesExtracted = Directory.GetFiles(".").ToList<string>();
+            List<string> filesExtracted = Directory.GetFiles(".").ToList<string>();
 
-            for (int i = 0; i < filesExtracted.Count; i++)
-                filesExtracted[i] = filesExtracted[i][2..];
-
-            foreach (var file in Directory.GetFiles("Folder").ToList<string>())
+            foreach (var file in Directory.GetFiles("Folder"))
             {
-                if (!filesExtracted.Contains(file[7..]))
+                if (!filesExtracted.Contains(file.Replace("Folder", ".")))
                     Assert.True(false);
                 else
-                    File.Delete(@".\\" + file[7..]);
+                    File.Delete(file.Replace("Folder", "."));
             }
 
             Directory.Delete("Folder", true);
