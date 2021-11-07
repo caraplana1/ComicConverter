@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace ComicConverter
 {
-    public static class Descompresor
+    public static class Decompressor
     {
         /// <summary>
         /// Extracts all files of a rar file.
         /// </summary>
         /// <param name="filePath">File to extract</param>
         /// <param name="outputDir">Directory for all files extractect from filePath</param>
-        public static void UnRar(string filePath, string outputDir = ".output")
+        public static void UnRar(string filePath, string outputDir = ".")
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("The file doesn't exists");

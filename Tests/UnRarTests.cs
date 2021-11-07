@@ -4,7 +4,7 @@ using ComicConverter;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DescompresorsTests
+namespace DecompressorsTests
 {
     public class UnrarTests
     {
@@ -17,7 +17,7 @@ namespace DescompresorsTests
 
             try
             {
-                Descompresor.UnRar(comicPath, outputPath);
+                Decompressor.UnRar(comicPath, outputPath);
             }
             catch (System.Exception e)
             {
@@ -38,7 +38,7 @@ namespace DescompresorsTests
             string filePath = "file.txt";
             string output = "Folder";
 
-            Assert.Throws<FileNotFoundException>(() => Descompresor.UnRar(filePath, output));
+            Assert.Throws<FileNotFoundException>(() => Decompressor.UnRar(filePath, output));
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace DescompresorsTests
         {
             string filePath = "../../../Samples/File.test";
 
-            Assert.Throws<System.FormatException>(() => Descompresor.UnRar(filePath, "Folder"));
+            Assert.Throws<System.FormatException>(() => Decompressor.UnRar(filePath, "Folder"));
         }
 
         [Fact]
@@ -55,8 +55,8 @@ namespace DescompresorsTests
             string filePath = "../../../Samples/CROSSED Wish you were here.cbr";
             List<string> filesExtracted;
 
-            Descompresor.UnRar(filePath, "Folder");
-            Descompresor.UnRar(filePath);
+            Decompressor.UnRar(filePath, "Folder");
+            Decompressor.UnRar(filePath);
 
             filesExtracted = Directory.GetFiles(".").ToList<string>();
 
