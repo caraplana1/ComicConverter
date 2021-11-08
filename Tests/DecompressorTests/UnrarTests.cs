@@ -18,14 +18,7 @@ namespace DecompressorsTests
             string outputPath = "../../../Samples/Folder";
             string[] extractedFiles;
 
-            try
-            {
-                Decompressor.UnRar(comicPath, outputPath);
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine(e.Message);
-            }
+            Decompressor.UnRar(comicPath, outputPath);
 
             if (!Directory.Exists(outputPath))
                 Assert.True(false);
