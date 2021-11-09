@@ -1,19 +1,21 @@
 ﻿using System.IO;
+using System.Linq;
+using SharpCompress.Common;
+using SharpCompress.Archives;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
-using SharpCompress.Archives;
-using SharpCompress.Common;
-using System.Linq;
+using SharpCompress.Archives.Tar;
+using SharpCompress.Archives.SevenZip;
 
 namespace ComicConverter
 {
     public static class Decompressor
     {
         /// <summary>
-        /// Extracts all files of a rar file.
+        /// Extract rar file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract</param>
-        /// <param name="outputDir">Directory for all files extractect from filePath</param>
+        /// <param name="outputDir">Directory to store extracted files.</param>
         public static void UnRar(string filePath, string outputDir = ".")
         {
             if (!File.Exists(filePath))
@@ -39,6 +41,11 @@ namespace ComicConverter
            }
         }
     
+        /// <summary>
+        /// Extract zip file in given directory.
+        /// </summary>
+        /// <param name="filePath">File to extract.</param>
+        /// <param name="outputDir">Directory to store extracted files.</param>
         public static void UnZip(string filePath, string outputDir =".")
         {
             if (!File.Exists(filePath))
@@ -60,5 +67,9 @@ namespace ComicConverter
                     ExtractFullPath = false
                 });
 		}
+
+        public static void UnTar(string filepath, string outputDir = ".") => throw new System.NotImplementedException();
+
+        public static void UnSevenZip(string filePath, string outputDir = ".") => throw new System.NotImplementedException();
     }
 }
