@@ -1,5 +1,6 @@
-using System.IO;
+﻿using System.IO;
 using SharpCompress.Archives.Rar;
+using SharpCompress.Archives.Zip;
 using SharpCompress.Archives;
 using SharpCompress.Common;
 using System.Linq;
@@ -18,8 +19,11 @@ namespace ComicConverter
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("The file doesn't exists");
 
-            else if (!RarArchive.IsRarFile(filePath))
+            if (!RarArchive.IsRarFile(filePath))
                 throw new System.FormatException("The file is not a rar file");
+
+            if (string.IsNullOrEmpty(outputDir))
+                throw new System.FormatException("Th directoty cannot be null or empty");
 
            Directory.CreateDirectory(outputDir);
 
@@ -34,5 +38,27 @@ namespace ComicConverter
                 });
            }
         }
+    
+        public static void UnZip(string filePath, string outputDir =".")
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException();
+
+            if (!ZipArchive.IsZipFile(filePath))
+                throw new System.FormatException("The file is not a zip file");
+
+            if (string.IsNullOrEmpty(outputDir))
+                throw new System.FormatException("Th directoty cannot be null or empty");
+
+            Directory.CreateDirectory(outputDir);
+
+			using ZipArchive zip = ZipArchive.Open(filePath);
+
+            foreach (var entry in zip.Entries.Where(a => !a.IsDirectory))
+                entry.WriteToDirectory(outputDir, new ExtractionOptions(){
+                    Overwrite = true,
+                    ExtractFullPath = false
+                });
+		}
     }
 }
