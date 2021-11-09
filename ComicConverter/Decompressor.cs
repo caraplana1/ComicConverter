@@ -95,6 +95,12 @@ namespace ComicConverter
                 });
         }
 
+
+        /// <summary>
+        /// Extract 7z file in given directory.
+        /// </summary>
+        /// <param name="filePath">File to extract</param>
+        /// <param name="outputDir">Directory to store extracted files.</param>
         public static void UnSevenZip(string filePath, string outputDir = ".")
         {
             if (!File.Exists(filePath))
