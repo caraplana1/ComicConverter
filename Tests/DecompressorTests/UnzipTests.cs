@@ -22,12 +22,14 @@ namespace DecompressorsTests
 		[Fact]
 		public void Unzip()
 		{
-			Decompressor.UnZip(cbzPath, "outputZipTest"); // Descompress File.
+			string path = "ZipTestDir";
 
-			Assert.True(Directory.Exists("outputZipTest")); // Makes sure the directory is created.
+			Decompressor.UnZip(cbzPath, path); // Descompress File.
 
-			string[] filesExtracted = Directory.GetFiles("outputZipTest");
-			Directory.Delete("outputZipTest");
+			Assert.True(Directory.Exists(path)); // Makes sure the directory is created.
+
+			string[] filesExtracted = Directory.GetFiles(path);
+			Directory.Delete(path, true);
 
 			Assert.True(filesExtracted.Length > 0); // Makes sure that the directory isnot empty.
 		}
@@ -67,12 +69,12 @@ namespace DecompressorsTests
 		{
 			string folderToCompare = "TestFolderToCompare";
 
-			// Extract the same file in the current directory and in an output directoty
+			// Extract the same file in the current directory and in the output directoty
 			Decompressor.UnZip(cbzPath);
 			Decompressor.UnZip(cbzPath, folderToCompare);
 
 			// Get a list of all files in current directory
-			List<string> filesExtracted = Directory.GetFiles(Directory.GetCurrentDirectory()).ToList<string>(); 
+			List<string> filesExtracted = Directory.GetFiles(".").ToList<string>(); 
 			
 			foreach (var file in Directory.GetFiles(folderToCompare))
 			{
@@ -81,7 +83,7 @@ namespace DecompressorsTests
 				File.Delete(file.Replace(folderToCompare, "."));
 			}
 
-			Directory.Delete(folderToCompare);
+			Directory.Delete(folderToCompare, true);
 		}
 
 		[Fact]
