@@ -60,7 +60,8 @@ namespace ComicConverter
 			using ZipArchive zip = ZipArchive.Open(filePath);
 
             foreach (var entry in zip.Entries.Where(x => !x.IsDirectory))
-                entry.WriteToDirectory(outputDir, new ExtractionOptions(){
+                entry.WriteToDirectory(outputDir, new ExtractionOptions()
+                {
                     Overwrite = true,
                     ExtractFullPath = false
                 });
@@ -87,12 +88,34 @@ namespace ComicConverter
             using TarArchive tar = TarArchive.Open(filePath);
 
             foreach (var entry in tar.Entries.Where(x => !x.IsDirectory))
-                entry.WriteToDirectory(outputDir, new ExtractionOptions(){
+                entry.WriteToDirectory(outputDir, new ExtractionOptions()
+                {
                     Overwrite = true,
                     ExtractFullPath = false
                 });
         }
 
-        public static void UnSevenZip(string filePath, string outputDir = ".") => throw new System.NotImplementedException();
+        public static void UnSevenZip(string filePath, string outputDir = ".")
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException();
+
+            if (string.IsNullOrEmpty(outputDir))
+                throw new System.FormatException("Th directoty cannot be null or empty");
+
+            if(!SevenZipArchive.IsSevenZipFile(filePath))
+                throw new System.FormatException("The file is not a 7z file");
+
+            Directory.CreateDirectory(outputDir);
+
+            using SevenZipArchive sevenZip = SevenZipArchive.Open(filePath);
+
+            foreach (var entry in sevenZip.Entries.Where(x => !x.IsDirectory))
+                entry.WriteToDirectory(outputDir, new ExtractionOptions()
+                {
+                    Overwrite = true,
+                    ExtractFullPath = false
+                });
+        }
     }
 }
