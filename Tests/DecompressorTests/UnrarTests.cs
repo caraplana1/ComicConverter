@@ -1,8 +1,8 @@
-using System.IO;
 using Xunit;
+using System.IO;
+using System.Linq;
 using ComicConverter;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DecompressorsTests
 {
