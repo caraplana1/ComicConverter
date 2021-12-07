@@ -4,7 +4,7 @@ using System.Linq;
 using ComicConverter;
 using System.Collections.Generic;
 
-namespace DecompressorsTests
+namespace ImageExtractorsTests
 {
 	public class UnzipTests
 	{
@@ -24,7 +24,7 @@ namespace DecompressorsTests
 		{
 			string path = "ZipTestDir";
 
-			Decompressor.UnZip(cbzPath, path); // Descompress File.
+			ImageExtractors.UnZip(cbzPath, path); // Descompress File.
 
 			Assert.True(Directory.Exists(path)); // Makes sure the directory is created.
 
@@ -40,7 +40,7 @@ namespace DecompressorsTests
 		[Fact]
 		public void FileIsNotZip()
 		{
-			Assert.Throws<System.FormatException>(() => Decompressor.UnZip(testFilePath));
+			Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(testFilePath));
 		}
 
 		/// <summary>
@@ -49,7 +49,7 @@ namespace DecompressorsTests
 		[Fact]
 		public void FileIsRar()
 		{
-			Assert.Throws<System.FormatException>(() => Decompressor.UnZip(cbrPath));
+			Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(cbrPath));
 		}
 
 		/// <summary>
@@ -58,7 +58,7 @@ namespace DecompressorsTests
 		[Fact]
 		public void FileNotFound()
 		{
-			Assert.Throws<FileNotFoundException>(() => Decompressor.UnZip("FakeFile.txt"));
+			Assert.Throws<FileNotFoundException>(() => ImageExtractors.UnZip("FakeFile.txt"));
 		}
 
 		/// <summary>
@@ -70,8 +70,8 @@ namespace DecompressorsTests
 			string folderToCompare = "TestFolderToCompare";
 
 			// Extract the same file in the current directory and in the output directoty
-			Decompressor.UnZip(cbzPath);
-			Decompressor.UnZip(cbzPath, folderToCompare);
+			ImageExtractors.UnZip(cbzPath);
+			ImageExtractors.UnZip(cbzPath, folderToCompare);
 
 			// Get a list of all files in current directory
 			List<string> filesExtracted = Directory.GetFiles(".").ToList<string>(); 
@@ -89,7 +89,7 @@ namespace DecompressorsTests
 		[Fact]
 		public void FolderIsAnEmptyString()
 		{
-			Assert.Throws<System.FormatException>(() => Decompressor.UnZip(cbzPath, ""));
+			Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(cbzPath, ""));
 		}
 	}
 }
