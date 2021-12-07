@@ -1,6 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Drawing;
+using GroupDocs.Parser;
 using SharpCompress.Common;
+using System.Drawing.Imaging;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
@@ -9,8 +13,33 @@ using SharpCompress.Archives.SevenZip;
 
 namespace ComicConverter
 {
-    public static class Decompressor
+    public static class ImageExtractors
     {
+		public static void ExtractImages(string filePath, string outputDir = ".")
+		{
+			if (!File.Exists(filePath))
+				throw new FileNotFoundException();
+
+			if (filePath.Substring(filePath.Length - 3) != "pdf" )
+				throw new FormatException("The file is not pdf file");
+
+			if (String.IsNullOrEmpty(outputDir))
+                throw new System.FormatException("The directoty cannot be null or empty");
+
+			Directory.CreateDirectory(outputDir);
+
+			using Parser parser = new (filePath);
+
+			if (!parser.Features.Images)
+				return;
+
+			var fileImages = parser.GetImages();
+			int counter = 0;
+
+			foreach (var image in fileImages)
+				Image.FromStream(image.GetImageStream()).Save($"{outputDir}/{counter++}.png", ImageFormat.Png);
+		}
+
         /// <summary>
         /// Extract rar file in given directory.
         /// </summary>
