@@ -1,15 +1,16 @@
-﻿using System;
+﻿#region Declaring libraries
+using System;
 using System.IO;
 using System.Linq;
 using System.Drawing;
-using GroupDocs.Parser;
-using SharpCompress.Common;
 using System.Drawing.Imaging;
+using SharpCompress.Common;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
 using SharpCompress.Archives.SevenZip;
+#endregion
 
 namespace ComicConverter
 {
@@ -20,24 +21,13 @@ namespace ComicConverter
 			if (!File.Exists(filePath))
 				throw new FileNotFoundException();
 
-			if (filePath.Substring(filePath.Length - 3) != "pdf" )
-				throw new FormatException("The file is not pdf file");
+			if (filePath.Substring(filePath.Length - 3).ToLower() != "pdf" && filePath.Substring(filePath.Length - 4).ToLower() != "epub")
+				throw new FormatException("The file is not supported.");
 
 			if (String.IsNullOrEmpty(outputDir))
                 throw new System.FormatException("The directoty cannot be null or empty");
 
 			Directory.CreateDirectory(outputDir);
-
-			using Parser parser = new (filePath);
-
-			if (!parser.Features.Images)
-				return;
-
-			var fileImages = parser.GetImages();
-			int counter = 0;
-
-			foreach (var image in fileImages)
-				Image.FromStream(image.GetImageStream()).Save($"{outputDir}/{counter++}.png", ImageFormat.Png);
 		}
 
         /// <summary>
@@ -123,7 +113,6 @@ namespace ComicConverter
                     ExtractFullPath = false
                 });
         }
-
 
         /// <summary>
         /// Extract 7z file in given directory.
