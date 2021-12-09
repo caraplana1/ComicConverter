@@ -4,7 +4,7 @@ using System.Linq;
 using ComicConverter;
 using System.Collections.Generic;
 
-namespace ImageExtractorsTests
+namespace Tests.ImageExtractorsTests
 {
 	public class UnzipTests
 	{
