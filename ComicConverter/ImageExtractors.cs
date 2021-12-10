@@ -2,8 +2,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Drawing;
-using System.Drawing.Imaging;
 using SharpCompress.Common;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Rar;
@@ -16,18 +14,20 @@ namespace ComicConverter
 {
     public static class ImageExtractors
     {
-		public static void ExtractImages(string filePath, string outputDir = ".")
+		public static void ExtractPdfImages(string filePath, string outputDir = ".")
 		{
 			if (!File.Exists(filePath))
 				throw new FileNotFoundException();
 
-			if (filePath.Substring(filePath.Length - 3).ToLower() != "pdf" && filePath.Substring(filePath.Length - 4).ToLower() != "epub")
-				throw new FormatException("The file is not supported.");
+			if (filePath.Substring(filePath.Length - 3).ToLower() != "pdf")
+				throw new FormatException("The file is not a pdf file.");
 
 			if (String.IsNullOrEmpty(outputDir))
                 throw new System.FormatException("The directoty cannot be null or empty");
 
 			Directory.CreateDirectory(outputDir);
+
+            // TODO: Implement the image extraction for pdf with ImageMagick for .NET
 		}
 
         /// <summary>

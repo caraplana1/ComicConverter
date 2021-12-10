@@ -19,7 +19,7 @@ namespace Tests.ImageExtractorsTests
 		[Fact]
 		public void ExtractPdfImagesTest()
 		{
-			ImageExtractors.ExtractImages(pdfPath, pdfOutputDir);
+			ImageExtractors.ExtractPdfImages(pdfPath, pdfOutputDir);
 
 			Assert.True(Directory.Exists(pdfOutputDir));
 			Assert.Equal(23, Directory.GetFiles(pdfOutputDir).Length);
@@ -29,19 +29,19 @@ namespace Tests.ImageExtractorsTests
 		[Fact]
 		public void IsNotPdfFileTest()
 		{
-			Assert.Throws<System.FormatException>(() => ImageExtractors.ExtractImages(testPath));
+			Assert.Throws<System.FormatException>(() => ImageExtractors.ExtractPdfImages(testPath));
 		}
 
 		[Fact]
 		public void FileNotFound()
 		{
-			Assert.Throws<FileNotFoundException>(() => ImageExtractors.ExtractImages("Nowhere.txt"));
+			Assert.Throws<FileNotFoundException>(() => ImageExtractors.ExtractPdfImages("Nowhere.txt"));
 		}
 
 		[Fact]
 		public void OutputDirEmptyString()
 		{
-			Assert.Throws<System.FormatException>(() => ImageExtractors.ExtractImages(pdfPath, ""));
+			Assert.Throws<System.FormatException>(() => ImageExtractors.ExtractPdfImages(pdfPath, ""));
 		}
 
 		[Fact]
@@ -49,8 +49,8 @@ namespace Tests.ImageExtractorsTests
 		{
 			string testDir = "pdfExtracted";
 
-			ImageExtractors.ExtractImages(pdfPath);
-			ImageExtractors.ExtractImages(pdfPath, testDir);
+			ImageExtractors.ExtractPdfImages(pdfPath);
+			ImageExtractors.ExtractPdfImages(pdfPath, testDir);
 
 			string[] extractedFiles = Directory.GetFiles(".");
 
