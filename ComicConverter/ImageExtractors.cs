@@ -1,5 +1,4 @@
-﻿#region Declaring libraries
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using SharpCompress.Common;
@@ -8,7 +7,6 @@ using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
 using SharpCompress.Archives.SevenZip;
-#endregion
 
 namespace ComicConverter
 {
@@ -23,7 +21,7 @@ namespace ComicConverter
 				throw new FormatException("The file is not a pdf file.");
 
 			if (String.IsNullOrEmpty(outputDir))
-                throw new System.FormatException("The directoty cannot be null or empty");
+                throw new FormatException("The directoty cannot be null or empty");
 
 			Directory.CreateDirectory(outputDir);
 
@@ -41,10 +39,10 @@ namespace ComicConverter
                 throw new FileNotFoundException("The file doesn't exists");
 
             if (!RarArchive.IsRarFile(filePath))
-                throw new System.FormatException("The file is not a rar file");
+                throw new FormatException("The file is not a rar file");
 
             if (string.IsNullOrEmpty(outputDir))
-                throw new System.FormatException("Th directoty cannot be null or empty");
+                throw new FormatException("The directoty cannot be null or empty");
 
            Directory.CreateDirectory(outputDir);
 
@@ -69,10 +67,10 @@ namespace ComicConverter
                 throw new FileNotFoundException();
 
             if (!ZipArchive.IsZipFile(filePath))
-                throw new System.FormatException("The file is not a zip file");
+                throw new FormatException("The file is not a zip file");
 
             if (string.IsNullOrEmpty(outputDir))
-                throw new System.FormatException("Th directoty cannot be null or empty");
+                throw new FormatException("The directoty cannot be null or empty");
 
             Directory.CreateDirectory(outputDir);
 
@@ -97,10 +95,10 @@ namespace ComicConverter
                 throw new FileNotFoundException();
 
             if (string.IsNullOrEmpty(outputDir))
-                throw new System.FormatException("Th directoty cannot be null or empty");
+                throw new FormatException("The directoty cannot be null or empty");
 
             if(!TarArchive.IsTarFile(filePath))
-                throw new System.FormatException("The file is not a tar file");
+                throw new FormatException("The file is not a tar file");
 
             Directory.CreateDirectory(outputDir);
 
@@ -125,10 +123,10 @@ namespace ComicConverter
                 throw new FileNotFoundException();
 
             if (string.IsNullOrEmpty(outputDir))
-                throw new System.FormatException("Th directoty cannot be null or empty");
+                throw new FormatException("The directoty cannot be null or empty");
 
             if(!SevenZipArchive.IsSevenZipFile(filePath))
-                throw new System.FormatException("The file is not a 7z file");
+                throw new FormatException("The file is not a 7z file");
 
             Directory.CreateDirectory(outputDir);
 
