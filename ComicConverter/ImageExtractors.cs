@@ -12,22 +12,6 @@ namespace ComicConverter
 {
     public static class ImageExtractors
     {
-		public static void ExtractPdfImages(string filePath, string outputDir = ".")
-		{
-			if (!File.Exists(filePath))
-				throw new FileNotFoundException();
-
-			if (filePath.Substring(filePath.Length - 3).ToLower() != "pdf")
-				throw new FormatException("The file is not a pdf file.");
-
-			if (String.IsNullOrEmpty(outputDir))
-                throw new FormatException("The directoty cannot be null or empty");
-
-			Directory.CreateDirectory(outputDir);
-
-            // TODO: Implement the image extraction for pdf with ImageMagick for .NET
-		}
-
         /// <summary>
         /// Extract rar file in given directory.
         /// </summary>
