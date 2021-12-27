@@ -1,9 +1,6 @@
 using Xunit;
-using System;
 using System.IO;
-using System.Linq;
 using ComicConverter;
-using System.Collections.Generic;
 
 namespace Tests.ComicBuilderTests
 {
@@ -17,8 +14,6 @@ namespace Tests.ComicBuilderTests
 		[Fact]
 		public void CreateCbzFile()
 		{
-			Assert.True(Directory.Exists(imagesDir));
-
 			string[] images = Directory.GetFiles(imagesDir);
 
 			ComicBuilder.CreateCBZ(images, cbzPath);

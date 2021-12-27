@@ -21,7 +21,7 @@ namespace ComicConverter
 			DirectoryInfo dir = Directory.CreateDirectory(".hidden");
 			dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
 
-			if (!imagesPaths.Any(f => File.Exists(f))) 
+			if (imagesPaths.All(f => !File.Exists(f))) 
 				throw new IOException("There is no file to add");
 
 			foreach (var image in imagesPaths)
@@ -38,5 +38,19 @@ namespace ComicConverter
 
 			dir.Delete(true);
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="imagesPaths"></param>
+		/// <param name="fileName"></param>
+		public static void CreateCBT(string[] imagesPaths, string fileName) => throw new NotImplementedException();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="imagesPaths"></param>
+		/// <param name="fileName"></param>
+		public static void CreateCB7(string[] imagesPaths, string fileName) => throw new NotImplementedException();
 	}
 }
