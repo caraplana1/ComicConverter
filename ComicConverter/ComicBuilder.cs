@@ -21,7 +21,7 @@ namespace ComicConverter
 			using (var archive = ZipArchive.Create())
 			{
 				archive.AddAllFromDirectory(dir.Name);
-				archive.SaveTo($"{fileName}.cbz", CompressionType.GZip);
+				archive.SaveTo($"{fileName}.cbz", CompressionType.Deflate);
 			}
 
 			dir.Delete(true);
