@@ -9,13 +9,11 @@ These are the format that we current support. More in the way!
 ### Descompress
 
 * CBR
-
 * CBZ
-
 * CBT
-
 * CB7
 
 ### Comic Creation
 
 * CBZ
+* CBT
