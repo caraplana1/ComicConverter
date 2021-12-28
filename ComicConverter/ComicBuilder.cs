@@ -1,11 +1,9 @@
-using System;
-using System.Text;
 using System.IO;
 using System.Linq;
 using SharpCompress.Common;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
-using System.Collections.Generic;
+using SharpCompress.Archives.Tar;
 
 namespace ComicConverter
 {
@@ -23,25 +21,29 @@ namespace ComicConverter
 			using (var archive = ZipArchive.Create())
 			{
 				archive.AddAllFromDirectory(dir.Name);
-				archive.SaveTo($"{fileName}.cbz", CompressionType.Deflate);
+				archive.SaveTo($"{fileName}.cbz", CompressionType.GZip);
 			}
 
 			dir.Delete(true);
 		}
 
 		/// <summary>
-		/// 
+		/// Creates tar file but with cbt extension
 		/// </summary>
-		/// <param name="imagesPaths"></param>
-		/// <param name="fileName"></param>
-		public static void CreateCBT(string[] imagesPaths, string fileName) => throw new NotImplementedException();
+		/// <param name="imagesPaths">Arrays of paths to  the images to include in the file</param>
+		/// <param name="fileName">Name of the final document. Dont need to add the extension name</param>
+		public static void CreateCBT(string[] imagesPaths, string fileName)
+		{
+			DirectoryInfo dir = CreateHiddenDir(imagesPaths);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="imagesPaths"></param>
-		/// <param name="fileName"></param>
-		public static void CreateCB7(string[] imagesPaths, string fileName) => throw new NotImplementedException();
+			using (var archive = TarArchive.Create())
+			{
+				archive.AddAllFromDirectory(dir.Name);
+				archive.SaveTo($"{fileName}.cbt", CompressionType.GZip);
+			}
+
+			dir.Delete(true);
+		}
 
 		/// <summary>
 		/// Simple funtion to create a hidden directory and copy all files specificataed.
@@ -59,7 +61,8 @@ namespace ComicConverter
 			foreach (var image in filesPaths)
 			{
 				var finalFilePath = image.Replace(@"\", "/").Split('/');
-				File.Copy(image, $"{dir.Name}/{finalFilePath.Last()}", true);
+				if (File.Exists(image))
+					File.Copy(image, $"{dir.Name}/{finalFilePath.Last()}", true);
 			}
 
 			return dir;
