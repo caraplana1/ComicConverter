@@ -1,6 +1,6 @@
 namespace ComicConverter
 {
-	public enum ComicInput
+	public enum ComicFormat
 	{
 		CBR,
 		CBZ,

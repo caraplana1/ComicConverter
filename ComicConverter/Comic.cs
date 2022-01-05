@@ -10,7 +10,7 @@ namespace ComicConverter
 
 		private readonly string comicPath;
 
-		private ComicInput comicFormat;
+		private ComicFormat comicFormat;
 
 		#endregion
 
@@ -19,13 +19,13 @@ namespace ComicConverter
 			this.comicPath = comicPath;
 		}
 
-		public Comic(string comicPath, ComicInput comicFormat)
+		public Comic(string comicPath, ComicFormat comicFormat)
 		{
 			this.comicPath = comicPath;
 			this.comicFormat = comicFormat;
 		}
 
-		public void Convert(string outputPath, ComicOutput outputFormat)
+		public void Convert(string outputPath, ComicFormat outputFormat)
 		{
 			throw new NotImplementedException();
 		}

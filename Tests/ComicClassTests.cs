@@ -16,7 +16,7 @@ namespace Tests
 		{
 			Comic comic = new(cbrPath);
 
-			comic.Convert("Test", ComicOutput.CBZ);
+			comic.Convert("Test", ComicFormat.CBZ);
 
 			Assert.True(File.Exists("Test.cbz"));
 		}
@@ -24,9 +24,9 @@ namespace Tests
 		[Fact]
 		public void TransformComicFromCbz2Cbt()
 		{
-			Comic comic = new(cbzPath, ComicInput.CBZ);
+			Comic comic = new(cbzPath, ComicFormat.CBZ);
 
-			comic.Convert("Test", ComicOutput.CBT);
+			comic.Convert("Test", ComicFormat.CBT);
 
 			Assert.True(File.Exists("Test.cbt"));
 		}
