@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
@@ -13,7 +14,7 @@ namespace ComicConverter
 		#region Field Declaration
 
 		private readonly string comicPath;
-		private ComicFormat comicFormat;
+		private readonly ComicFormat comicFormat;
 
 		#endregion
 
@@ -21,12 +22,29 @@ namespace ComicConverter
 		{
 			this.comicPath = comicPath;
 			this.comicFormat = GetComicFormat();
+
+			if (!File.Exists(comicPath))
+				throw new FileNotFoundException();
 		}
 
 		public void Convert(string outputPath, ComicFormat format)
 		{
 			if (!IsValidOutputFormat(format))
 				throw new FormatException($"Can't convert comic to {format}");
+
+			DirectoryInfo dir = Directory.CreateDirectory(".hidden");
+			dir.Attributes = FileAttributes.Hidden | FileAttributes.Directory;
+
+			var ExtractImages = GetExtractorImageAction(this.comicFormat);
+			var BuildComic = GetComicBuilderAction(format);
+
+			ExtractImages(this.comicPath, dir.FullName);
+
+			System.Threading.Thread.Sleep(1000);
+
+			BuildComic(Directory.GetFiles(dir.Name), outputPath);
+
+			dir.Delete(true);
 		}
 
 		private ComicFormat GetComicFormat()
@@ -55,26 +73,24 @@ namespace ComicConverter
 
 		private Action<string, string> GetExtractorImageAction(ComicFormat format)
 		{
-			switch (format)
+			return format switch
 			{
-				case ComicFormat.CBR: return ImageExtractors.UnRar;
-
-				case ComicFormat.CBZ : return ImageExtractors.UnZip;
-
-				case ComicFormat.CBT: return ImageExtractors.UnTar;
-
-				case ComicFormat.CB7: return ImageExtractors.UnSevenZip;
-			}
+				ComicFormat.CBR => ImageExtractors.UnRar,
+				ComicFormat.CBZ => ImageExtractors.UnZip,
+				ComicFormat.CBT => ImageExtractors.UnTar,
+				ComicFormat.CB7 => ImageExtractors.UnSevenZip,
+				_ => throw new FormatException(),
+			};
 		}
 
-		private Action<string[],string> GetComicBuilderMethod(ComicFormat format)
+		private Action<string[],string> GetComicBuilderAction(ComicFormat format)
 		{
-			switch (format)
+			return format switch
 			{
-				case ComicFormat.CBZ: return ComicBuilder.CreateCBZ;
-
-				case ComicFormat.CBT: return ComicBuilder.CreateCBT;
-			}
+				ComicFormat.CBZ => ComicBuilder.CreateCBZ,
+				ComicFormat.CBT => ComicBuilder.CreateCBT,
+				_ => throw new FormatException(),
+			};
 		}
 	}
 }
