@@ -1,8 +1,7 @@
 using Xunit;
+using System;
 using System.IO;
-using System.Linq;
 using ComicConverter;
-using System.Collections.Generic;
 
 namespace Tests
 {
@@ -29,6 +28,14 @@ namespace Tests
 			comic.Convert("Test", ComicFormat.CBT);
 
 			Assert.True(File.Exists("Test.cbt"));
+		}
+
+		[Fact]
+		public void ConvertToInvalidFormat()
+		{
+			Comic comic = new(cbzPath);
+
+			Assert.Throws<FormatException>(() => comic.Convert("Test", ComicFormat.CBR));
 		}
 	}
 }
