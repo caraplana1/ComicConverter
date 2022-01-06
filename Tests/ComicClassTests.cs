@@ -9,6 +9,7 @@ namespace Tests
 	{
 		private const string cbrPath = "../../../Samples/CROSSED Wish you were here.cbr";
 		private const string cbzPath = "../../../Samples/Crossed 3D.cbz";
+		private const string testPath = "../../../Samples/File.test";
 
 		[Fact]
 		public void TransformComicFromCbr2Cbz()
@@ -23,7 +24,7 @@ namespace Tests
 		[Fact]
 		public void TransformComicFromCbz2Cbt()
 		{
-			Comic comic = new(cbzPath, ComicFormat.CBZ);
+			Comic comic = new(cbzPath);
 
 			comic.Convert("Test", ComicFormat.CBT);
 
@@ -36,6 +37,14 @@ namespace Tests
 			Comic comic = new(cbzPath);
 
 			Assert.Throws<FormatException>(() => comic.Convert("Test", ComicFormat.CBR));
+		}
+
+		[Fact]
+		public void InputComicInvalidFormat()
+		{
+			Comic comic;
+
+			Assert.Throws<FormatException>(() => comic = new(testPath));
 		}
 	}
 }
