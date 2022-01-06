@@ -25,14 +25,12 @@ namespace ComicConverter
 
 		public void Convert(string outputPath, ComicFormat format)
 		{
-			this.comicPath = comicPath;
-			this.comicFormat = comicFormat;
+			if (!IsValidOutputFormat(format))
+				throw new FormatException($"Can't convert comic to {format}");
 		}
 
 		private ComicFormat GetComicFormat()
 		{
-			string[] comicpathComponents = this.comicPath.Split('.');
-
 			if (RarArchive.IsRarFile(comicPath))
 				return ComicFormat.CBR;
 			if (ZipArchive.IsZipFile(comicPath))
@@ -42,22 +40,31 @@ namespace ComicConverter
 			if (SevenZipArchive.IsSevenZipFile(comicPath))
 				return ComicFormat.CB7;
 
-			string invalidFormat = null;
-
-			if (comicpathComponents.Length > 1)
-				invalidFormat = comicpathComponents.Last();
-
-			if (invalidFormat is not null)
-				throw new FormatException($"The comic cannot be used beacuse is a {invalidFormat.ToUpper()}");
-			else
-				throw new FormatException("The comic cannot be used");
+			throw new FormatException("The file cannot be used beacuse is not in a propper format.");
 		}
 
-		}
-
-		private Action<string, string> GetExtractorImageMethod(ComicFormat format)
+		private bool IsValidOutputFormat(ComicFormat format)
 		{
-			throw new NotImplementedException();
+			if (format == ComicFormat.CBZ)
+				return true;
+			else if (format == ComicFormat.CBT)
+				return true;
+
+			return false;
+		}
+
+		private Action<string, string> GetExtractorImageAction(ComicFormat format)
+		{
+			switch (format)
+			{
+				case ComicFormat.CBR: return ImageExtractors.UnRar;
+
+				case ComicFormat.CBZ : return ImageExtractors.UnZip;
+
+				case ComicFormat.CBT: return ImageExtractors.UnTar;
+
+				case ComicFormat.CB7: return ImageExtractors.UnSevenZip;
+			}
 		}
 	}
 }
