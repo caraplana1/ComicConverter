@@ -66,5 +66,15 @@ namespace ComicConverter
 				case ComicFormat.CB7: return ImageExtractors.UnSevenZip;
 			}
 		}
+
+		private Action<string[],string> GetComicBuilderMethod(ComicFormat format)
+		{
+			switch (format)
+			{
+				case ComicFormat.CBZ: return ComicBuilder.CreateCBZ;
+
+				case ComicFormat.CBT: return ComicBuilder.CreateCBT;
+			}
+		}
 	}
 }
