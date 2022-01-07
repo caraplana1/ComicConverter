@@ -2,14 +2,14 @@ using Xunit;
 using System.IO;
 using ComicConverter;
 
-namespace Tests.ComicBuilderTests
+namespace Test.ComicCreators
 {
-	public class CbtCreatorTest
+	public class CbtFiles
 	{
 		[Fact]
 		public void CreateCbtTest()
 		{
-			string[] files = Directory.GetFiles(CbzCreatorTest.imagesDir);
+			string[] files = Directory.GetFiles(Samples.IMAGESDIR);
 
 			ComicBuilder.CreateCBT(files, "CbtTest");
 

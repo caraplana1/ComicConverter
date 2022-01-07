@@ -4,9 +4,9 @@ using System.Linq;
 using ComicConverter;
 using System.Collections.Generic;
 
-namespace Tests.ImageExtractorsTests
+namespace Test.ImageCollector
 {
-	public class UnzipTests
+	public class CbtFiles
 	{
 		#region Files Paths Region
 

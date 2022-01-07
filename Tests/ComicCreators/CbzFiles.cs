@@ -2,9 +2,9 @@ using Xunit;
 using System.IO;
 using ComicConverter;
 
-namespace Tests.ComicBuilderTests
+namespace Test.ComicCreators
 {
-	public class CbzCreatorTest
+	public class CbzFiles
 	{
 		#region Paths Region
 		internal const string imagesDir = "../../../Samples/Images";

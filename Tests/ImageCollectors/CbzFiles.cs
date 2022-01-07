@@ -4,9 +4,9 @@ using System.Linq;
 using ComicConverter;
 using System.Collections.Generic;
 
-namespace Tests.ImageExtractorsTests
+namespace Test.ImageCollector
 {
-    public class UnrarTests
+    public class CbzFiles
     {
         /// <summary>
         ///  Test the unrar method with normal parameters

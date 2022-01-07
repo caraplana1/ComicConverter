@@ -3,9 +3,9 @@ using System;
 using System.IO;
 using ComicConverter;
 
-namespace Tests
+namespace Test
 {
-	public class ComicClassTests
+	public class ComicConverter
 	{
 		private const string cbrPath = "../../../Samples/CROSSED Wish you were here.cbr";
 		private const string cbzPath = "../../../Samples/Crossed 3D.cbz";
