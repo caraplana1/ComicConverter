@@ -19,6 +19,8 @@ namespace Tests
 			comic.Convert("Test", ComicFormat.CBZ);
 
 			Assert.True(File.Exists("Test.cbz"));
+
+			File.Delete("Test.cbz");
 		}
 
 		[Fact]
@@ -29,6 +31,8 @@ namespace Tests
 			comic.Convert("Test", ComicFormat.CBT);
 
 			Assert.True(File.Exists("Test.cbt"));
+
+			File.Delete("Test.cbt");
 		}
 
 		[Fact]
