@@ -6,24 +6,26 @@ namespace Test.ComicCreators
 {
 	public class CbtFiles
 	{
+		private const string cbtPath = "CreatedCbtFile";
+
 		[Fact]
-		public void CreateCbtTest()
+		public void CreateCbt()
 		{
 			string[] files = Directory.GetFiles(Samples.IMAGESDIR);
 
-			ComicBuilder.CreateCBT(files, "CbtTest");
+			ComicBuilder.CreateCBT(files, cbtPath);
 
-			Assert.True(File.Exists("CbtTest.cbt"));
+			Assert.True(File.Exists($"{cbtPath}.cbt"));
 
-			File.Delete("CbtTest.cbt");
+			File.Delete($"{cbtPath}.cbt");
 		}
 
 		[Fact]
-		public void ImageNotFound()
+		public void ImagesNotFound()
 		{
 			string[] fakeFiles = {"fakefile1.jpg", "fakefile2.jpg", "fakefile3.jpg"};
 
-			Assert.Throws<IOException>(() => ComicBuilder.CreateCBT(fakeFiles, "Test"));
+			Assert.Throws<IOException>(() => ComicBuilder.CreateCBT(fakeFiles, cbtPath));
 		}
 	}
 }

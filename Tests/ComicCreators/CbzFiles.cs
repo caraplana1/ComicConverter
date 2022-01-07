@@ -6,15 +6,12 @@ namespace Test.ComicCreators
 {
 	public class CbzFiles
 	{
-		#region Paths Region
-		internal const string imagesDir = "../../../Samples/Images";
-		private const string cbzPath = "Test";
-		#endregion
+		private const string cbzPath = "CreatedCbzFile";
 
 		[Fact]
-		public void CreateCbzFile()
+		public void CreateCbz()
 		{
-			string[] images = Directory.GetFiles(imagesDir);
+			string[] images = Directory.GetFiles(Samples.IMAGESDIR);
 
 			ComicBuilder.CreateCBZ(images, cbzPath);
 
