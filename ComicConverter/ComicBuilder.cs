@@ -16,7 +16,7 @@ namespace ComicConverter
 		/// <param name="fileName">Name of the final document. Dont need to add the extension name</param>
 		public static void CreateCBZ(string[] imagesPaths, string fileName)
 		{
-			DirectoryInfo dir = CreateHiddenDir(imagesPaths);
+			DirectoryInfo dir = CreateHiddenDir(imagesPaths, $"{fileName}CBZ");
 
 			using (var archive = ZipArchive.Create())
 			{
@@ -34,7 +34,7 @@ namespace ComicConverter
 		/// <param name="fileName">Name of the final document. Dont need to add the extension name</param>
 		public static void CreateCBT(string[] imagesPaths, string fileName)
 		{
-			DirectoryInfo dir = CreateHiddenDir(imagesPaths);
+			DirectoryInfo dir = CreateHiddenDir(imagesPaths, $"{fileName}CBT");
 
 			using (var archive = TarArchive.Create())
 			{
@@ -50,9 +50,9 @@ namespace ComicConverter
 		/// </summary>
 		/// <param name="filesPaths">Files wanted to copy on the directory</param>
 		/// <returns>Directory info</returns>
-		private static DirectoryInfo CreateHiddenDir(string[] filesPaths)
+		private static DirectoryInfo CreateHiddenDir(string[] filesPaths, string dirName)
 		{
-			DirectoryInfo dir = Directory.CreateDirectory(".hidden");
+			DirectoryInfo dir = Directory.CreateDirectory(dirName);
 			dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
 
 			if (filesPaths.All(f => !File.Exists(f))) 

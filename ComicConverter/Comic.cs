@@ -32,15 +32,13 @@ namespace ComicConverter
 			if (!IsValidOutputFormat(format))
 				throw new FormatException($"Can't convert comic to {format}");
 
-			DirectoryInfo dir = Directory.CreateDirectory(".hidden");
+			DirectoryInfo dir = Directory.CreateDirectory(".ConvertedImagesHiddenDir");
 			dir.Attributes = FileAttributes.Hidden | FileAttributes.Directory;
 
 			var ExtractImages = GetExtractorImageAction(this.comicFormat);
 			var BuildComic = GetComicBuilderAction(format);
 
-			ExtractImages(this.comicPath, dir.FullName);
-
-			System.Threading.Thread.Sleep(1000);
+			ExtractImages(this.comicPath, dir.Name);
 
 			BuildComic(Directory.GetFiles(dir.Name), outputPath);
 
