@@ -23,7 +23,7 @@ namespace Tests.ComicBuilderTests
 		{
 			string[] fakeFiles = {"fakefile1.jpg", "fakefile2.jpg", "fakefile3.jpg"};
 
-			Assert.Throws<IOException>(() => ComicBuilder.CreateCBT(fakeFiles, "cbtTest"));
+			Assert.Throws<IOException>(() => ComicBuilder.CreateCBT(fakeFiles, "Test"));
 		}
 	}
 }
