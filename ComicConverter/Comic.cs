@@ -4,8 +4,6 @@ using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
 using SharpCompress.Archives.SevenZip;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace ComicConverter
 {
@@ -13,15 +11,15 @@ namespace ComicConverter
 	{
 		#region Field Declaration
 
-		private readonly string comicPath;
-		private readonly ComicFormat comicFormat;
+		public string Path {get;}
+		public ComicFormat Format {get;}
 
 		#endregion
 
 		public Comic(string comicPath)
 		{
-			this.comicPath = comicPath;
-			this.comicFormat = GetComicFormat();
+			this.Path = comicPath;
+			this.Format = GetComicFormat();
 
 			if (!File.Exists(comicPath))
 				throw new FileNotFoundException();
@@ -35,10 +33,10 @@ namespace ComicConverter
 			DirectoryInfo dir = Directory.CreateDirectory(".ConvertedImagesHiddenDir");
 			dir.Attributes = FileAttributes.Hidden | FileAttributes.Directory;
 
-			var ExtractImages = GetExtractorImageAction(this.comicFormat);
+			var ExtractImages = GetExtractorImageAction(this.Format);
 			var BuildComic = GetComicBuilderAction(format);
 
-			ExtractImages(this.comicPath, dir.Name);
+			ExtractImages(this.Path, dir.Name);
 
 			BuildComic(Directory.GetFiles(dir.Name), outputPath);
 
@@ -47,13 +45,13 @@ namespace ComicConverter
 
 		private ComicFormat GetComicFormat()
 		{
-			if (RarArchive.IsRarFile(comicPath))
+			if (RarArchive.IsRarFile(Path))
 				return ComicFormat.CBR;
-			if (ZipArchive.IsZipFile(comicPath))
+			if (ZipArchive.IsZipFile(Path))
 				return ComicFormat.CBZ;
-			if (TarArchive.IsTarFile(comicPath))
+			if (TarArchive.IsTarFile(Path))
 				return ComicFormat.CBT;
-			if (SevenZipArchive.IsSevenZipFile(comicPath))
+			if (SevenZipArchive.IsSevenZipFile(Path))
 				return ComicFormat.CB7;
 
 			throw new FormatException("The file cannot be used beacuse is not in a propper format.");
