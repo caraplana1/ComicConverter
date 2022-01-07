@@ -6,73 +6,61 @@ using System.Collections.Generic;
 
 namespace Test.ImageCollector
 {
-    public class CbzFiles
-    {
-        /// <summary>
-        ///  Test the unrar method with normal parameters
-        /// </summary>
-        [Fact]
-        public void UnrarTest()
-        {
-            string comicPath = "../../../Samples/CROSSED Wish you were here.cbr";
-            string outputPath = "../../../Samples/Folder";
-            string[] extractedFiles;
+	public class CbzFiles
+	{
+		[Fact]
+		public void UnZip()
+		{
+			string path = "ZipTestDir";
 
-            ImageExtractors.UnRar(comicPath, outputPath);
+			ImageExtractors.UnZip(Samples.CBZPATH, path); // Descompress File.
 
-            if (!Directory.Exists(outputPath))
-                Assert.True(false);
+			Assert.True(Directory.Exists(path)); // Makes sure the directory is created.
 
-            extractedFiles = Directory.GetFiles(outputPath);
-            Directory.Delete(outputPath, true);
-            Assert.True(extractedFiles.Length > 0);
-        }
+			string[] filesExtracted = Directory.GetFiles(path);
+			Directory.Delete(path, true);
 
-        /// <summary>
-        /// Test if the unrar method can handle a file that doesn't exists
-        /// </summary>
-        [Fact]
-        public void RarFileNotExists()
-        {
-            string filePath = "file.txt";
-            string output = "Folder";
+			Assert.True(filesExtracted.Length > 0); // Makes sure that the directory isnot empty.
+		}
 
-            Assert.Throws<FileNotFoundException>(() => ImageExtractors.UnRar(filePath, output));
-        }
+		[Fact]
+		public void FileIsNotZip()
+		{
+			Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(Samples.TESTPATH));
+		}
 
-        /// <summary>
-        /// Test if the unrar method can handle a non rar file.
-        /// </summary>
-        [Fact]
-        public void FileIsNotRar()
-        {
-            string filePath = "../../../Samples/File.test";
+		[Fact]
+		public void FileNotFound()
+		{
+			Assert.Throws<FileNotFoundException>(() => ImageExtractors.UnZip("FakeFile.txt"));
+		}
 
-            Assert.Throws<System.FormatException>(() => ImageExtractors.UnRar(filePath, "Folder"));
-        }
+		[Fact]
+		public void EmptyAttributeDirectory()
+		{
+			string folderToCompare = "TestFolderToCompare";
 
-        /// <summary>
-        /// Invoke the method but with just one parameter
-        /// </summary>
-        [Fact]
-        public void EmptyOutputFolder()
-        {
-            string filePath = "../../../Samples/CROSSED Wish you were here.cbr";
+			// Extract the same file in the current directory and in the output directoty
+			ImageExtractors.UnZip(Samples.CBZPATH);
+			ImageExtractors.UnZip(Samples.CBZPATH, folderToCompare);
 
-            ImageExtractors.UnRar(filePath, "Folder");
-            ImageExtractors.UnRar(filePath);
+			// Get a list of all files in current directory
+			List<string> filesExtracted = Directory.GetFiles(".").ToList<string>(); 
+			
+			foreach (var file in Directory.GetFiles(folderToCompare))
+			{
+				// Verifies if the files in output directory are in the current and delete them.
+				Assert.Contains(file.Replace(folderToCompare, "."), filesExtracted);
+				File.Delete(file.Replace(folderToCompare, "."));
+			}
 
-            List<string> filesExtracted = Directory.GetFiles(".").ToList<string>();
+			Directory.Delete(folderToCompare, true);
+		}
 
-            foreach (var file in Directory.GetFiles("Folder"))
-            {
-                if (!filesExtracted.Contains(file.Replace("Folder", ".")))
-                    Assert.True(false);
-                else
-                    File.Delete(file.Replace("Folder", "."));
-            }
-
-            Directory.Delete("Folder", true);
-        }
-    }
+		[Fact]
+		public void EmptyStringDirectory()
+		{
+			Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(Samples.CBZPATH, ""));
+		}
+	}
 }
