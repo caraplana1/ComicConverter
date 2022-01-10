@@ -1,19 +1,19 @@
 # ComicConverter
 
-Dotnet library to convert comics formats.
+A multi-plataform .NET library written in Net standard 2.0 for comic file formating.
 
 ## Suported Formats
 
 These are the format that we current support. More in the way!
 
-### Descompress
+| Format | Extract Images |  Create Comic  |
+| :----: | :------------: | :------------: |
+|  CBR   |       ✔️      |       ❌       |
+|  CBZ   |       ✔️      |       ✔️       |
+|  CBT   |       ✔️      |       ✔️       |
+|  CB7   |       ✔️      |       ❌       |
+|  PDF   |      ❌       |❌ (Coming soon)|
 
-* CBR
-* CBZ
-* CBT
-* CB7
+## Documentation
 
-### Comic Creation
-
-* CBZ
-* CBT
+For documentation usage and samples go to [Usage](Docs/Usage.md).
