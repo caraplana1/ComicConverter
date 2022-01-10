@@ -13,7 +13,7 @@ namespace ComicConverter
     public static class ImageExtractors
     {
         /// <summary>
-        /// Extract rar file in given directory.
+        /// Extract rar or cbr file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
@@ -41,7 +41,7 @@ namespace ComicConverter
         }
     
         /// <summary>
-        /// Extract zip file in given directory.
+        /// Extract zip or cbz file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract.</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
@@ -69,7 +69,7 @@ namespace ComicConverter
 		}
 
         /// <summary>
-        /// Extract tar file in given directory.
+        /// Extract tar or cbt file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
@@ -97,7 +97,7 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Extract 7z file in given directory.
+        /// Extract 7z or cb7 file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
