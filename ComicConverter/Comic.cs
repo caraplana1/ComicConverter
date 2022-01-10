@@ -7,6 +7,9 @@ using SharpCompress.Archives.SevenZip;
 
 namespace ComicConverter
 {
+	/// <summary>
+	/// Class to represent a comic. Only contains the direction info and format.
+	/// </summary>
 	public class Comic
 	{
 		#region Field Declaration
