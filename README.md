@@ -20,7 +20,7 @@ For documentation go to [Documentation](Docs/Usage.md).
 
 ## Samples
 
-To convert to another format just include `using ComicConverter;` and follow the next examples depending of what you want.
+For start using the library just compy and paste `using ComicConverter;` and follow the next examples depending of your case.
 
 - Convert CBR to CBZ.
 
