@@ -6,7 +6,7 @@ List of class Components.
 
 * [Comic](#comic-class)
 * [ComicBuilder](#comicbuilder-class)
-* [ImageExtractors](imageextractors-class)
+* [ImageExtractors](#imageextractors-class)
 * [ComicFormat](#comicformat-enum)
 
 ## Comic (class)
