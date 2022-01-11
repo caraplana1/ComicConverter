@@ -9,6 +9,8 @@
     <Version>1.0</Version>
     <Author>Cristian Landaez</Author>
     <Description>Package To convert comics formats.</Description>
+    <PackageTags>comics, convert, comic</PackageTags>
+    <RepositoryUrl>https://github.com/caraplana1/ComicConverter</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
