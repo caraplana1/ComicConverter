@@ -13,57 +13,57 @@ List of class Components.
 
 ### Attributes
 
-* **Path** [String] <br/>
+* `Path` - String <br/>
   Comic File direction.
 
-* **Format** [ComicFormat] <br/>
+* `Format` - ComicFormat <br/>
   Comic's format enum.
 
 ### Constructors
 
-* **Comic(string comicPath)**
+* `Comic(string comicPath)`
 
 ### Methods
 
-* **Convert(string outputPath, ComicFormat format)** [void] <br/>
+* `Convert(string outputPath, ComicFormat format)` - void <br/>
   Method to convert the comic to any supported format into any direction.
 
-* **FindComicFormat()** [ComicFormat] <br/>
+* `FindComicFormat()` - ComicFormat <br/>
   Method to find the comic format. If the comic is not a file that is supported will throw an exception.
 
-* **IsValidOutputFormat(ComicFormat format)** [bool] <br/>
+* `IsValidOutputFormat(ComicFormat format)` - bool <br/>
   Verify is the output format to convert is suported.
 
-* **FindExtractorImageAction(ComicFormat format)** [Action<string, string>] <br/>
+* `FindExtractorImageAction(ComicFormat format)` - Action<string, string> <br/>
   Find the correct method to extract images from the supported file given an format.
 
-* **FindComicBuilderAction(ComicFormat format)** [Action<string[], string>] <br/>
+* `FindComicBuilderAction(ComicFormat format)` - Action<string[], string> <br/>
   Find the correct Method to created a comic in the given supproted format.
 
 ## ComicBuilder (class)
 
 ### Methods
 
-* **CreateCBZ(string[] imagesPaths, string fileName)** [void] <br/>
+* `CreateCBZ(string[] imagesPaths, string fileName)` - void <br/>
   Creates zip file but with cbz extension
 
-* **CreateCBT(string[] imagesPaths, string fileName)** [void] <br/>
+* `CreateCBT(string[] imagesPaths, string fileName)` - void <br/>
   Creates Tar file but with cbt extension
 
 ## ImageExtractors (class)
 
 ### Methods
 
-* **UnRar(string filePath, string outputDir = ".")** [void] <br/>
+* `UnRar(string filePath, string outputDir = ".")` - void <br/>
 Extract rar or cbr file in given directory.
 
-* **UnZip(string filePath, string outputDir = ".")** [void] <br/>
+* `UnZip(string filePath, string outputDir = ".")` - void <br/>
 Extract zip or cbz file in given directory.
 
-* **UnTar(string filePath, string outputDir = ".")** [void] <br/>
+* `UnTar(string filePath, string outputDir = ".")` - void <br/>
 Extract tar or cbt file in given directory.
 
-* **UnSevenZip(string filePath, string outputDir = ".")** [void] <br/>
+* `UnSevenZip(string filePath, string outputDir = ".")` - void <br/>
 Extract 7z or cb7 file in given directory.
 
 ## ComicFormat (enum)
