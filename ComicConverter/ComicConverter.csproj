@@ -3,6 +3,12 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <PackageId>ComicConverter</PackageId>
+    <Version>1.0</Version>
+    <Author>Cristian Landaez</Author>
+    <Description>Package To convert comics formats.</Description>
   </PropertyGroup>
 
   <ItemGroup>
