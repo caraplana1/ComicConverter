@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - dev
 jobs:
   publish:
 
@@ -19,4 +20,4 @@ jobs:
     - name: build
       run: dotnet build --no-restore -c Release
     - name: Push to nuget
-      run: dotnet nuget push ComicConverter/bin/Release/ComicConverter.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ComicConverter/bin/Release/ComicConverter.1.0.0.nupkg --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
