@@ -39,7 +39,7 @@ namespace ComicConverter
 			using (var archive = TarArchive.Create())
 			{
 				archive.AddAllFromDirectory(dir.Name);
-				archive.SaveTo($"{fileName}.cbt", CompressionType.GZip);
+				archive.SaveTo($"{fileName}.cbt", CompressionType.None);
 			}
 
 			dir.Delete(true);
