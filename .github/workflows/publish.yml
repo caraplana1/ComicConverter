@@ -1,25 +1,22 @@
-name: publish to nuget
+name: Publish
 on:
   push:
     branches:
       - main
 jobs:
   publish:
-    name: build, pack & publish
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-
-      - name: restore
-      - run: dotnet restore
-
-      - name: build
-      - run: dotnet build --no-restore -c Release
-      
-      - name: Push to nuget
-      - run: dotnet nuget push ComicConverter/bin/Release/ComicConverter1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+    - uses: actions/checkout@v2
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: restore
+      run: dotnet restore
+    - name: build
+      run: dotnet build --no-restore -c Release
+    - name: Push to nuget
+      run: dotnet nuget push ComicConverter/bin/Release/ComicConverter1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
