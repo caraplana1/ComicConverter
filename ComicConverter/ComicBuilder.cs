@@ -7,6 +7,9 @@ using SharpCompress.Common;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
+using PdfSharpCore;
+using PdfSharpCore.Pdf;
+using PdfSharpCore.Drawing;
 
 namespace ComicConverter
 {
@@ -58,10 +61,15 @@ namespace ComicConverter
 			PdfPage page;
 			XGraphics graphics;
 			XImage imageFile;
+<<<<<<< HEAD
+=======
+			double x;
+>>>>>>> fa9bb62 (Pdf File Created, need to modify scale)
 
 			foreach (var image in imagesPaths)
 			{
 				page = document.AddPage();
+<<<<<<< HEAD
 				imageFile = XImage.FromFile(image);
 
 				// TODO: Calculate a PageSize for an image size
@@ -69,6 +77,13 @@ namespace ComicConverter
 				graphics = XGraphics.FromPdfPage(page);
 
 				graphics.DrawImage(imageFile, 0, 0);
+=======
+				graphics = XGraphics.FromPdfPage(page);
+
+				imageFile = XImage.FromFile(image);
+				x = (250 - imageFile.PixelWidth * 72 / imageFile.HorizontalResolution) / 2;
+				graphics.DrawImage(imageFile, x, 0);
+>>>>>>> fa9bb62 (Pdf File Created, need to modify scale)
 			}
 
 			document.Save($"{fileName}.pdf");
