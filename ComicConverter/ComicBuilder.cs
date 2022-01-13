@@ -4,6 +4,9 @@ using SharpCompress.Common;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
+using PdfSharpCore;
+using PdfSharpCore.Pdf;
+using PdfSharpCore.Drawing;
 
 namespace ComicConverter
 {
@@ -43,6 +46,31 @@ namespace ComicConverter
 			}
 
 			dir.Delete(true);
+		}
+
+		public static void CreatePdf(string[] imagesPaths, string fileName)
+		{
+			imagesPaths = imagesPaths.Where(f => File.Exists(f)).ToArray();
+			imagesPaths = imagesPaths.Where(f => f.ToUpper().EndsWith(".PNG") || f.ToUpper().EndsWith(".JPEG") || f.ToUpper().EndsWith(".JPG")).ToArray();
+
+			PdfDocument document = new();
+			document.Info.Title = fileName;
+			PdfPage page;
+			XGraphics graphics;
+			XImage imageFile;
+			double x;
+
+			foreach (var image in imagesPaths)
+			{
+				page = document.AddPage();
+				graphics = XGraphics.FromPdfPage(page);
+
+				imageFile = XImage.FromFile(image);
+				x = (250 - imageFile.PixelWidth * 72 / imageFile.HorizontalResolution) / 2;
+				graphics.DrawImage(imageFile, x, 0);
+			}
+
+			document.Save($"{fileName}.pdf");
 		}
 
 		/// <summary>
