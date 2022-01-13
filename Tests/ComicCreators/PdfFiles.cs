@@ -21,6 +21,7 @@ namespace Test.ComicCreators
 
 		[Fact]
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		public void ImagesNotFound()
 		{
@@ -31,6 +32,8 @@ namespace Test.ComicCreators
 
 		[Fact]
 >>>>>>> b8e9672 (Pdf creator tests)
+=======
+>>>>>>> 01585f3 (Imagesnotfound test deleted)
 		public void FilesAreNotImages()
 		{
 			var images = Directory.GetFiles(Samples.IMAGESDIR);
