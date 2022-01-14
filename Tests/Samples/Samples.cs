@@ -10,5 +10,6 @@ namespace Test
 		public const string CBRPATH = "../../../Samples/CROSSED Wish you were here.cbr";
 		public const string TESTPATH = "../../../Samples/File.test";
 		public const string FAKEFILE  = "Do not exist.txt";
+		public const string FAKEIMAGE = "../../../Samples/FakeImage.png";
 	}
 }
