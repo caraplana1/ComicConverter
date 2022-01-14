@@ -66,10 +66,8 @@ namespace ComicConverter
 
 				// TODO: Calculate a PageSize for an image size
 				// // page.Size = CalculatePageSize(imageFile.Size);
-				graphics = XGraphics.FromPdfPage(page);
-				graphics.DrawImage(imageFile, 0, 0);
-				graphics = XGraphics.FromPdfPage(page);
 
+				graphics = XGraphics.FromPdfPage(page);
 				graphics.DrawImage(imageFile, 0, 0);
 			}
 
