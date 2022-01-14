@@ -20,25 +20,11 @@ namespace Test.ComicCreators
 		}
 
 		[Fact]
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-		public void ImagesNotFound()
-		{
-			string[] images = {"Fake1.jpeg", "fake2.jpg", "fake3.jpg"};
-
-			Assert.Throws<FileNotFoundException>(() => ComicBuilder.CreatePdf(images, "pdftest"));
-		}
-
-		[Fact]
->>>>>>> b8e9672 (Pdf creator tests)
-=======
->>>>>>> 01585f3 (Imagesnotfound test deleted)
 		public void FilesAreNotImages()
 		{
 			var images = Directory.GetFiles(Samples.IMAGESDIR);
 
-			Assert.Throws<FormatException>(() => ComicBuilder.CreatePdf(images, "pdftest"));
+			Assert.ThrowsAny<Exception>(() => ComicBuilder.CreatePdf(images, "pdftest"));
 		}
 	}
 }

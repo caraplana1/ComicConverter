@@ -58,41 +58,19 @@ namespace ComicConverter
 			PdfPage page;
 			XGraphics graphics;
 			XImage imageFile;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-			double x;
->>>>>>> fa9bb62 (Pdf File Created, need to modify scale)
-=======
->>>>>>> 4aecd21 (Pdf image position fixed)
 
 			foreach (var image in imagesPaths)
 			{
 				page = document.AddPage();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 4aecd21 (Pdf image position fixed)
 				imageFile = XImage.FromFile(image);
 
 				// TODO: Calculate a PageSize for an image size
 				// // page.Size = CalculatePageSize(imageFile.Size);
-<<<<<<< HEAD
+				graphics = XGraphics.FromPdfPage(page);
+				graphics.DrawImage(imageFile, 0, 0);
 				graphics = XGraphics.FromPdfPage(page);
 
 				graphics.DrawImage(imageFile, 0, 0);
-=======
-				graphics = XGraphics.FromPdfPage(page);
-
-				imageFile = XImage.FromFile(image);
-				x = (250 - imageFile.PixelWidth * 72 / imageFile.HorizontalResolution) / 2;
-				graphics.DrawImage(imageFile, x, 0);
->>>>>>> fa9bb62 (Pdf File Created, need to modify scale)
-=======
-				graphics = XGraphics.FromPdfPage(page);
-
-				graphics.DrawImage(imageFile, 0, 0);
->>>>>>> 4aecd21 (Pdf image position fixed)
 			}
 
 			document.Save($"{fileName}.pdf");
