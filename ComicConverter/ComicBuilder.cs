@@ -1,12 +1,12 @@
 using System.IO;
 using System.Linq;
+using PdfSharpCore;
+using PdfSharpCore.Pdf;
+using PdfSharpCore.Drawing;
 using SharpCompress.Common;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
-using PdfSharpCore;
-using PdfSharpCore.Pdf;
-using PdfSharpCore.Drawing;
 
 namespace ComicConverter
 {
@@ -58,16 +58,17 @@ namespace ComicConverter
 			PdfPage page;
 			XGraphics graphics;
 			XImage imageFile;
-			double x;
 
 			foreach (var image in imagesPaths)
 			{
 				page = document.AddPage();
+				imageFile = XImage.FromFile(image);
+
+				// TODO: Calculate a PageSize for an image size
+				// // page.Size = CalculatePageSize(imageFile.Size);
 				graphics = XGraphics.FromPdfPage(page);
 
-				imageFile = XImage.FromFile(image);
-				x = (250 - imageFile.PixelWidth * 72 / imageFile.HorizontalResolution) / 2;
-				graphics.DrawImage(imageFile, x, 0);
+				graphics.DrawImage(imageFile, 0, 0);
 			}
 
 			document.Save($"{fileName}.pdf");
@@ -96,6 +97,12 @@ namespace ComicConverter
 			}
 
 			return dir;
+		}
+
+		private static PageSize CalculatePageSize(XSize imageSize)
+		{
+			// TODO: Implement Size Calculation https://www.prepressure.com/library/paper-size
+			throw new System.NotImplementedException();
 		}
 	}
 }
