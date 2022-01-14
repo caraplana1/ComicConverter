@@ -19,7 +19,7 @@ namespace ComicConverter
 		/// <param name="fileName">Name of the final document. Dont need to add the extension name</param>
 		public static void CreateCBZ(string[] imagesPaths, string fileName)
 		{
-			DirectoryInfo dir = CreateHiddenDir(imagesPaths, $"{fileName.Split('/').Last()}CBZ");
+			DirectoryInfo dir = CreateHiddenDir(imagesPaths, fileName.Replace('\\', '/').Split('/').Last() + "CBZ");
 
 			using (var archive = ZipArchive.Create())
 			{
@@ -37,7 +37,7 @@ namespace ComicConverter
 		/// <param name="fileName">Name of the final document. Dont need to add the extension name</param>
 		public static void CreateCBT(string[] imagesPaths, string fileName)
 		{
-			DirectoryInfo dir = CreateHiddenDir(imagesPaths, $"{fileName.Split('/').Last()}CBT");
+			DirectoryInfo dir = CreateHiddenDir(imagesPaths, fileName.Replace('\\', '/').Split('/').Last() + "CBT");
 
 			using (var archive = TarArchive.Create())
 			{
