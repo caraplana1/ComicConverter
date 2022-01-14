@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <PackageId>ComicConverter</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Author>Cristian Landaez</Author>
     <Description>Package To convert comics formats.</Description>
     <PackageTags>comics, convert, comic</PackageTags>
