@@ -123,6 +123,7 @@ namespace ComicConverter
 			{
 				ComicFormat.CBZ => ComicBuilder.CreateCBZ,
 				ComicFormat.CBT => ComicBuilder.CreateCBT,
+				ComicFormat.PDF => ComicBuilder.CreatePdf,
 				_ => throw new FormatException(),
 			};
 		}
