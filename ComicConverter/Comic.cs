@@ -89,7 +89,9 @@ namespace ComicConverter
 		{
 			if (format == ComicFormat.CBZ)
 				return true;
-			else if (format == ComicFormat.CBT)
+			if (format == ComicFormat.CBT)
+				return true;
+			if (format == ComicFormat.PDF)
 				return true;
 
 			return false;
