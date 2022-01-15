@@ -50,6 +50,9 @@ List of class Components.
 * `CreateCBT(string[] imagesPaths, string fileName)` - void <br/>
   Creates Tar file but with cbt extension
 
+* `CreatePdf(string[] imagesPaths, string fileName)` - void <br/>
+  Creates Pdf Files with a image per page.
+
 ## ImageExtractors (class)
 
 ### Methods

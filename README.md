@@ -12,7 +12,7 @@ These are the format that we current support. More in the way!
 |  CBZ  |      ✔️      |       ✔️       |
 |  CBT  |      ✔️      |       ✔️       |
 |  CB7  |      ✔️      |        ❌        |
-|  PDF  |       ❌       | ❌ (Coming soon) |
+|  PDF  |       ❌       | :heavy_check_mark: |
 
 ## Samples
 
