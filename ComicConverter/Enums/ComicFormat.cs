@@ -5,6 +5,7 @@ namespace ComicConverter
 		CBR,
 		CBZ,
 		CBT,
-		CB7
+		CB7,
+		PDF
 	}
 }

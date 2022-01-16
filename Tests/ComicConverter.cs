@@ -32,6 +32,18 @@ namespace Test
 		}
 
 		[Fact]
+		public void ConvertCbr2Pdf()
+		{
+			Comic comic = new(Samples.CBRPATH);
+
+			comic.Convert("Pdf", ComicFormat.PDF);
+
+			Assert.True(File.Exists("Pdf.pdf"));
+
+			File.Delete("Pdf.pdf");
+		}
+
+		[Fact]
 		public void OutInvalidFormat()
 		{
 			Comic comic = new(Samples.CBZPATH);
