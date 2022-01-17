@@ -123,5 +123,7 @@ namespace ComicConverter
                     ExtractFullPath = false
                 });
         }
-    }
+
+		public static void ExtractPDf(string filePath, string outputDir = ".") => throw new NotImplementedException();
+	}
 }
