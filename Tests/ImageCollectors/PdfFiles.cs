@@ -18,6 +18,8 @@ namespace Test.ImageCollector
 			var files = Directory.GetFiles("PdfExtractedImages");
 
 			Assert.Equal(51, files.Length);
+
+			Directory.Delete("PdfExtractedImages", true);
 		}
 
 		[Fact]
@@ -40,6 +42,8 @@ namespace Test.ImageCollector
 			var files = Directory.GetFiles("PdfExtracted");
 
 			Assert.Equal(51, files.Length);
+
+			Directory.Delete("PdfExtracted", true);
 		}
 
 		[Fact]
