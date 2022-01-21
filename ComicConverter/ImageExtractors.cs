@@ -133,7 +133,7 @@ namespace ComicConverter
         /// </summary>
         /// <param name="filePath">Pdf file</param>
         /// <param name="outputDir">Output directory</param>
-		public static void ExtractPDf(string filePath, string outputDir = ".")
+		public static void ExtractPdfImages(string filePath, string outputDir = ".")
 		{
 			if (!File.Exists(filePath))
                 throw new FileNotFoundException();

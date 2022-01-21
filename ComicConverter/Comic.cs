@@ -112,7 +112,7 @@ namespace ComicConverter
 				ComicFormat.CBZ => ImageExtractors.UnZip,
 				ComicFormat.CBT => ImageExtractors.UnTar,
 				ComicFormat.CB7 => ImageExtractors.UnSevenZip,
-				ComicFormat.PDF => ImageExtractors.ExtractPDf,
+				ComicFormat.PDF => ImageExtractors.ExtractPdfImages,
 				_ => throw new FormatException(),
 			};
 		}
