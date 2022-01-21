@@ -33,7 +33,7 @@ comic.Convert("new Name", ComicFormat.PDF);
 string pdfPath = "Comic.pdf";
 
 Comic pdf = new Comic(pdfPath);
-pdf.Convert("MyCbzComic,ComicFormat.CBZ);
+pdf.Convert("MyCbzComic", ComicFormat.CBZ);
 ```
 
 - **Create a CBZ comic from images paths.**
