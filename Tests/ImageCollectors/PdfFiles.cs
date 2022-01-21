@@ -25,7 +25,7 @@ namespace Test.ImageCollector
 		[Fact]
 		public void FileIsNotPdf()
 		{
-			Assert.Throws<FileNotFoundException>(() => ImageExtractors.ExtractPDf(Samples.CBRPATH));
+			Assert.Throws<FormatException>(() => ImageExtractors.ExtractPDf(Samples.CBRPATH));
 		}
 
 		[Fact]
