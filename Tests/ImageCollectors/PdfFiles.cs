@@ -1,8 +1,5 @@
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ComicConverter;
 using Xunit;
 
@@ -17,7 +14,7 @@ namespace Test.ImageCollector
 
 			var files = Directory.GetFiles("PdfExtractedImages");
 
-			Assert.Equal(51, files.Length);
+			Assert.Equal(49, files.Length);
 
 			Directory.Delete("PdfExtractedImages", true);
 		}
@@ -41,7 +38,7 @@ namespace Test.ImageCollector
 
 			var files = Directory.GetFiles("PdfExtracted");
 
-			Assert.Equal(51, files.Length);
+			Assert.Equal(49, files.Length);
 
 			Directory.Delete("PdfExtracted", true);
 		}
