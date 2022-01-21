@@ -76,6 +76,8 @@ namespace ComicConverter
 				return ComicFormat.CBT;
 			if (SevenZipArchive.IsSevenZipFile(Path))
 				return ComicFormat.CB7;
+			if (Path.EndsWith(".pdf"))
+				return ComicFormat.PDF;
 
 			throw new FormatException("The file cannot be used beacuse is not in a propper format.");
 		}
@@ -110,6 +112,7 @@ namespace ComicConverter
 				ComicFormat.CBZ => ImageExtractors.UnZip,
 				ComicFormat.CBT => ImageExtractors.UnTar,
 				ComicFormat.CB7 => ImageExtractors.UnSevenZip,
+				ComicFormat.PDF => ImageExtractors.ExtractPdfImages,
 				_ => throw new FormatException(),
 			};
 		}

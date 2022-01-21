@@ -44,6 +44,18 @@ namespace Test
 		}
 
 		[Fact]
+		public void ConvertPdf2Cbz()
+		{
+			Comic comic = new (Samples.PDFPATH);
+
+			comic.Convert("pdf2cbz", ComicFormat.CBZ);
+
+			Assert.True(File.Exists("pdf2cbz.cbz"));
+
+			File.Delete("pdf2cbz.cbz");
+		}
+
+		[Fact]
 		public void OutInvalidFormat()
 		{
 			Comic comic = new(Samples.CBZPATH);

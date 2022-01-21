@@ -4,7 +4,7 @@ A multi-plataform .NET library written in Net standard 2.0 for comic file format
 
 ## Suported Formats
 
-These are the format that we current support. More in the way!
+These are the format that we current support.
 
 | Format | Extract Images |   Create Comic   |
 | :----: | :------------: | :--------------: |
@@ -12,19 +12,28 @@ These are the format that we current support. More in the way!
 |  CBZ  |      ✔️      |       ✔️       |
 |  CBT  |      ✔️      |       ✔️       |
 |  CB7  |      ✔️      |        ❌        |
-|  PDF  |       ❌       | :heavy_check_mark: |
+|  PDF  | :heavy_check_mark:(only jpeg) | :heavy_check_mark: |
 
 ## Samples
 
 For start using the library just compy and paste `using ComicConverter;` and follow the next examples depending of your case.
 
-- **Convert CBR to CBZ.**
+- **Convert CBR to PDF.**
 
 ```C#
 string comicPath = "./MyComic.cbr";
 
 Comic comic = new Comic(comicPath);
-comic.Convert("new Name", ComicFormat.CBZ);
+comic.Convert("new Name", ComicFormat.PDF);
+```
+
+- **Convert PDF to CBZ**
+
+```C#
+string pdfPath = "Comic.pdf";
+
+Comic pdf = new Comic(pdfPath);
+pdf.Convert("MyCbzComic,ComicFormat.CBZ);
 ```
 
 - **Create a CBZ comic from images paths.**

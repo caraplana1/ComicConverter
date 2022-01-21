@@ -1,8 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf.Advanced;
+using PdfSharpCore.Pdf.IO;
 using SharpCompress.Common;
 using SharpCompress.Archives;
+using System.Collections.Generic;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
@@ -123,5 +127,64 @@ namespace ComicConverter
                     ExtractFullPath = false
                 });
         }
-    }
+
+        /// <summary>
+        /// Extract Jpeg from pdf file to a directory.
+        /// </summary>
+        /// <param name="filePath">Pdf file</param>
+        /// <param name="outputDir">Output directory</param>
+		public static void ExtractPdfImages(string filePath, string outputDir = ".")
+		{
+			if (!File.Exists(filePath))
+                throw new FileNotFoundException();
+
+            if (!filePath.EndsWith(".pdf") || outputDir == "")
+                throw new FormatException();
+
+            DirectoryInfo dir = Directory.CreateDirectory(outputDir);
+            FileInfo file = new(filePath);
+            int counter = 0;
+
+            PdfDocument document = PdfReader.Open(file.FullName);
+
+            foreach (var page in document.Pages)
+            {
+                PdfDictionary resources = page.Elements.GetDictionary("/Resources");
+                if (resources is not null)
+                {
+                    PdfDictionary xObjects = resources.Elements.GetDictionary("/XObject");
+
+                    if (xObjects is not null)
+                    {
+						ICollection<PdfItem> items = xObjects.Elements.Values;
+
+                        foreach (var item in items)
+                        {
+                            PdfReference reference = item as PdfReference;
+                            if (reference is not null)
+								if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
+									ExtractJpegFromPdf(xObject, $"{dir.FullName}/{file.Name.Split('.').First()}{++counter}");
+                        }
+                    }
+                }
+            }
+		}
+
+        /// <summary>
+        /// Write to a file the jpeg bytes.
+        /// </summary>
+        /// <param name="image">Bytes that represent an image.</param>
+        /// <param name="name">Name of the stream to save the image.</param>
+        private static void ExtractJpegFromPdf(PdfDictionary image, string name)
+        {
+            if (image.Elements.GetName("/Filter") != "/DCTDecode")
+                return;
+
+            byte[] stream = image.Stream.Value;
+            FileStream fs = new($"{name}.jpeg", FileMode.Create, FileAccess.Write);
+            BinaryWriter bw = new (fs);
+            bw.Write(stream);
+            bw.Close();
+        }
+	}
 }

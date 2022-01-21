@@ -11,5 +11,6 @@ namespace Test
 		public const string TESTPATH = "../../../Samples/File.test";
 		public const string FAKEFILE  = "Do not exist.txt";
 		public const string FAKEIMAGE = "../../../Samples/FakeImage.png";
+		public const string PDFPATH = "../../../Samples/Crossed 3D.pdf";
 	}
 }
