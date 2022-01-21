@@ -128,6 +128,11 @@ namespace ComicConverter
                 });
         }
 
+        /// <summary>
+        /// Extract Jpeg from pdf file to a directory.
+        /// </summary>
+        /// <param name="filePath">Pdf file</param>
+        /// <param name="outputDir">Output directory</param>
 		public static void ExtractPDf(string filePath, string outputDir = ".")
 		{
 			if (!File.Exists(filePath))
@@ -157,18 +162,19 @@ namespace ComicConverter
                         {
                             PdfReference reference = item as PdfReference;
                             if (reference is not null)
-                            {
 								if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
-								{
 									ExtractJpegFromPdf(xObject, $"{dir.FullName}/{file.Name.Split('.').First()}{++counter}");
-								}
-							}
                         }
                     }
                 }
             }
 		}
 
+        /// <summary>
+        /// Write to a file the jpeg bytes.
+        /// </summary>
+        /// <param name="image">Bytes that represent an image.</param>
+        /// <param name="name">Name of the stream to save the image.</param>
         private static void ExtractJpegFromPdf(PdfDictionary image, string name)
         {
             if (image.Elements.GetName("/Filter") != "/DCTDecode")
