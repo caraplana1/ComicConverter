@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using PdfSharpCore.Pdf;
@@ -55,7 +56,9 @@ namespace ComicConverter
 		public static void CreatePdf(string[] imagesPaths, string fileName)
 		{
 			imagesPaths = imagesPaths.Where(f => File.Exists(f)).ToArray();
-			imagesPaths = imagesPaths.Where(f => f.ToUpper().EndsWith(".PNG") || f.ToUpper().EndsWith(".JPEG") || f.ToUpper().EndsWith(".JPG")).ToArray();
+			imagesPaths = imagesPaths.Where(f => f.EndsWith(".PNG", StringComparison.OrdinalIgnoreCase)
+											|| f.EndsWith(".JPEG", StringComparison.OrdinalIgnoreCase)
+											|| f.EndsWith(".JPG", StringComparison.OrdinalIgnoreCase)).ToArray();
 
 			PdfDocument document = new();
 			document.Info.Title = fileName.Replace('\\', '/').Split('/').Last();
@@ -87,9 +90,9 @@ namespace ComicConverter
 			DirectoryInfo dir = Directory.CreateDirectory(dirName);
 			dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
 
-			if (filesPaths.All(f => !File.Exists(f))) 
+			if (filesPaths.All(f => !File.Exists(f)))
 				throw new IOException("There is no file to add");
-			
+
 			filesPaths = filesPaths.Where(f => File.Exists(f)).ToArray();
 			FileInfo fileInfo;
 

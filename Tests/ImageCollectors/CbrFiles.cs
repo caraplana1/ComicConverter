@@ -8,9 +8,8 @@ namespace Test.ImageCollector
 {
     public class CbrFiles
     {
-        
         private const string outputDir = "ImagesFromRarDir";
-        
+
         [Fact]
         public void Unrar()
         {

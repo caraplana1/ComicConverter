@@ -28,6 +28,9 @@ namespace ComicConverter
 
 		#endregion
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
 		/// <param name="comicPath">Direction of the comic file.</param>
 		public Comic(string comicPath)
 		{
@@ -39,11 +42,6 @@ namespace ComicConverter
 			Format = FindComicFormat();
 		}
 
-		/// <summary>
-		/// Method to convert the comic to any supported format into any direction.
-		/// </summary>
-		/// <param name="outputPath">The path to the comic be copied. Any file with the same name will be overwriten.</param> 
-		/// <param name="format">Format to convert. Any no supported format will </param>
 		public void Convert(string outputPath, ComicFormat format)
 		{
 			if (!IsValidOutputFormat(format))

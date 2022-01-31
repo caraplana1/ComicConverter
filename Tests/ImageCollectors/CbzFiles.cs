@@ -11,7 +11,7 @@ namespace Test.ImageCollector
 		[Fact]
 		public void UnZip()
 		{
-			string path = "ZipTestDir";
+			const string path = "ZipTestDir";
 
 			ImageExtractors.UnZip(Samples.CBZPATH, path); // Descompress File.
 
@@ -38,15 +38,15 @@ namespace Test.ImageCollector
 		[Fact]
 		public void EmptyAttributeDirectory()
 		{
-			string folderToCompare = "TestFolderToCompare";
+			const string folderToCompare = "TestFolderToCompare";
 
 			// Extract the same file in the current directory and in the output directoty
 			ImageExtractors.UnZip(Samples.CBZPATH);
 			ImageExtractors.UnZip(Samples.CBZPATH, folderToCompare);
 
 			// Get a list of all files in current directory
-			List<string> filesExtracted = Directory.GetFiles(".").ToList<string>(); 
-			
+			List<string> filesExtracted = Directory.GetFiles(".").ToList<string>();
+
 			foreach (var file in Directory.GetFiles(folderToCompare))
 			{
 				// Verifies if the files in output directory are in the current and delete them.

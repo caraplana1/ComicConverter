@@ -35,15 +35,17 @@ namespace ComicConverter
            Directory.CreateDirectory(outputDir);
 
            using RarArchive archive = RarArchive.Open(filePath);
-           
+
            foreach (var entry in archive.Entries.Where(x => !x.IsDirectory))
-                entry.WriteToDirectory(outputDir, new ExtractionOptions()
+			{
+				entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
                     ExtractFullPath = false,
                     Overwrite = true
                 });
-        }
-    
+			}
+		}
+
         /// <summary>
         /// Extract zip or cbz file in given directory.
         /// </summary>
@@ -65,11 +67,13 @@ namespace ComicConverter
 			using ZipArchive zip = ZipArchive.Open(filePath);
 
             foreach (var entry in zip.Entries.Where(x => !x.IsDirectory))
-                entry.WriteToDirectory(outputDir, new ExtractionOptions()
+			{
+				entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
                     Overwrite = true,
                     ExtractFullPath = false
                 });
+			}
 		}
 
         /// <summary>
@@ -77,7 +81,7 @@ namespace ComicConverter
         /// </summary>
         /// <param name="filePath">File to extract</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
-        public static void UnTar(string filePath, string outputDir = ".") 
+        public static void UnTar(string filePath, string outputDir = ".")
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException();
@@ -93,12 +97,14 @@ namespace ComicConverter
             using TarArchive tar = TarArchive.Open(filePath);
 
             foreach (var entry in tar.Entries.Where(x => !x.IsDirectory))
-                entry.WriteToDirectory(outputDir, new ExtractionOptions()
+			{
+				entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
                     Overwrite = true,
                     ExtractFullPath = false
                 });
-        }
+			}
+		}
 
         /// <summary>
         /// Extract 7z or cb7 file in given directory.
@@ -121,12 +127,14 @@ namespace ComicConverter
             using SevenZipArchive sevenZip = SevenZipArchive.Open(filePath);
 
             foreach (var entry in sevenZip.Entries.Where(x => !x.IsDirectory))
-                entry.WriteToDirectory(outputDir, new ExtractionOptions()
+			{
+				entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
                     Overwrite = true,
                     ExtractFullPath = false
                 });
-        }
+			}
+		}
 
         /// <summary>
         /// Extract Jpeg from pdf file to a directory.
@@ -138,7 +146,7 @@ namespace ComicConverter
 			if (!File.Exists(filePath))
                 throw new FileNotFoundException();
 
-            if (!filePath.EndsWith(".pdf") || outputDir == "")
+            if (!filePath.EndsWith(".pdf") || outputDir?.Length == 0)
                 throw new FormatException();
 
             DirectoryInfo dir = Directory.CreateDirectory(outputDir);
@@ -162,9 +170,11 @@ namespace ComicConverter
                         {
                             PdfReference reference = item as PdfReference;
                             if (reference is not null)
+							{
 								if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
 									ExtractJpegFromPdf(xObject, $"{dir.FullName}/{file.Name.Split('.').First()}{++counter}");
-                        }
+							}
+						}
                     }
                 }
             }
