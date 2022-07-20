@@ -56,7 +56,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-			Assert.Throws<System.FormatException>(() => ImageExtractors.UnRar(Samples.CBRPATH, ""));
+            Assert.Throws<System.FormatException>(() => ImageExtractors.UnRar(Samples.CBRPATH, ""));
         }
     }
 }

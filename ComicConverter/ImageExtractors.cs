@@ -32,26 +32,26 @@ namespace ComicConverter
             if (string.IsNullOrEmpty(outputDir))
                 throw new FormatException("The directoty cannot be null or empty");
 
-           Directory.CreateDirectory(outputDir);
+            Directory.CreateDirectory(outputDir);
 
-           using RarArchive archive = RarArchive.Open(filePath);
+            using RarArchive archive = RarArchive.Open(filePath);
 
-           foreach (var entry in archive.Entries.Where(x => !x.IsDirectory))
-			{
-				entry.WriteToDirectory(outputDir, new ExtractionOptions()
+            foreach (var entry in archive.Entries.Where(x => !x.IsDirectory))
+            {
+                entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
                     ExtractFullPath = false,
                     Overwrite = true
                 });
-			}
-		}
+            }
+        }
 
         /// <summary>
         /// Extract zip or cbz file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract.</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
-        public static void UnZip(string filePath, string outputDir =".")
+        public static void UnZip(string filePath, string outputDir = ".")
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException();
@@ -64,17 +64,17 @@ namespace ComicConverter
 
             Directory.CreateDirectory(outputDir);
 
-			using ZipArchive zip = ZipArchive.Open(filePath);
+            using ZipArchive zip = ZipArchive.Open(filePath);
 
             foreach (var entry in zip.Entries.Where(x => !x.IsDirectory))
-			{
-				entry.WriteToDirectory(outputDir, new ExtractionOptions()
+            {
+                entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
                     Overwrite = true,
                     ExtractFullPath = false
                 });
-			}
-		}
+            }
+        }
 
         /// <summary>
         /// Extract tar or cbt file in given directory.
@@ -89,7 +89,7 @@ namespace ComicConverter
             if (string.IsNullOrEmpty(outputDir))
                 throw new FormatException("The directoty cannot be null or empty");
 
-            if(!TarArchive.IsTarFile(filePath))
+            if (!TarArchive.IsTarFile(filePath))
                 throw new FormatException("The file is not a tar file");
 
             Directory.CreateDirectory(outputDir);
@@ -97,14 +97,14 @@ namespace ComicConverter
             using TarArchive tar = TarArchive.Open(filePath);
 
             foreach (var entry in tar.Entries.Where(x => !x.IsDirectory))
-			{
-				entry.WriteToDirectory(outputDir, new ExtractionOptions()
+            {
+                entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
                     Overwrite = true,
                     ExtractFullPath = false
                 });
-			}
-		}
+            }
+        }
 
         /// <summary>
         /// Extract 7z or cb7 file in given directory.
@@ -119,7 +119,7 @@ namespace ComicConverter
             if (string.IsNullOrEmpty(outputDir))
                 throw new FormatException("The directoty cannot be null or empty");
 
-            if(!SevenZipArchive.IsSevenZipFile(filePath))
+            if (!SevenZipArchive.IsSevenZipFile(filePath))
                 throw new FormatException("The file is not a 7z file");
 
             Directory.CreateDirectory(outputDir);
@@ -127,23 +127,23 @@ namespace ComicConverter
             using SevenZipArchive sevenZip = SevenZipArchive.Open(filePath);
 
             foreach (var entry in sevenZip.Entries.Where(x => !x.IsDirectory))
-			{
-				entry.WriteToDirectory(outputDir, new ExtractionOptions()
+            {
+                entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
                     Overwrite = true,
                     ExtractFullPath = false
                 });
-			}
-		}
+            }
+        }
 
         /// <summary>
         /// Extract Jpeg from pdf file to a directory.
         /// </summary>
         /// <param name="filePath">Pdf file</param>
         /// <param name="outputDir">Output directory</param>
-		public static void ExtractPdfImages(string filePath, string outputDir = ".")
-		{
-			if (!File.Exists(filePath))
+	public static void ExtractPdfImages(string filePath, string outputDir = ".")
+        {
+            if (!File.Exists(filePath))
                 throw new FileNotFoundException();
 
             if (!filePath.EndsWith(".pdf") || outputDir?.Length == 0)
@@ -164,21 +164,21 @@ namespace ComicConverter
 
                     if (xObjects is not null)
                     {
-						ICollection<PdfItem> items = xObjects.Elements.Values;
+                        ICollection<PdfItem> items = xObjects.Elements.Values;
 
                         foreach (var item in items)
                         {
                             PdfReference reference = item as PdfReference;
                             if (reference is not null)
-							{
-								if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
-									ExtractJpegFromPdf(xObject, $"{dir.FullName}/{file.Name.Split('.').First()}{++counter}");
-							}
-						}
+                            {
+                                if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
+                                    ExtractJpegFromPdf(xObject, $"{dir.FullName}/{file.Name.Split('.').First()}{++counter}");
+                            }
+                        }
                     }
                 }
             }
-		}
+        }
 
         /// <summary>
         /// Write to a file the jpeg bytes.
@@ -192,9 +192,9 @@ namespace ComicConverter
 
             byte[] stream = image.Stream.Value;
             FileStream fs = new($"{name}.jpeg", FileMode.Create, FileAccess.Write);
-            BinaryWriter bw = new (fs);
+            BinaryWriter bw = new(fs);
             bw.Write(stream);
             bw.Close();
         }
-	}
+    }
 }
