@@ -23,7 +23,7 @@ namespace Test.ComicCreators
         [Fact]
         public void ImagesNotFound()
         {
-            string[] fakeFiles = { "fakefile1.jpg", "fakefile2.jpg", "fakefile3.jpg" };
+            string[] fakeFiles = ["fakefile1.jpg", "fakefile2.jpg", "fakefile3.jpg"];
 
             Assert.Throws<IOException>(() => ComicBuilder.CreateCBT(fakeFiles, cbtPath));
         }
