@@ -4,28 +4,28 @@ using ComicConverter;
 
 namespace Test.ComicCreators
 {
-	public class CbtFiles
-	{
-		private const string cbtPath = "CreatedCbtFile";
+    public class CbtFiles
+    {
+        private const string cbtPath = "CreatedCbtFile";
 
-		[Fact]
-		public void CreateCbt()
-		{
-			string[] files = Directory.GetFiles(Samples.IMAGESDIR);
+        [Fact]
+        public void CreateCbt()
+        {
+            string[] files = Directory.GetFiles(Samples.IMAGESDIR);
 
-			ComicBuilder.CreateCBT(files, cbtPath);
+            ComicBuilder.CreateCBT(files, cbtPath);
 
-			Assert.True(File.Exists($"{cbtPath}.cbt"));
+            Assert.True(File.Exists($"{cbtPath}.cbt"));
 
-			File.Delete($"{cbtPath}.cbt");
-		}
+            File.Delete($"{cbtPath}.cbt");
+        }
 
-		[Fact]
-		public void ImagesNotFound()
-		{
-			string[] fakeFiles = {"fakefile1.jpg", "fakefile2.jpg", "fakefile3.jpg"};
+        [Fact]
+        public void ImagesNotFound()
+        {
+            string[] fakeFiles = { "fakefile1.jpg", "fakefile2.jpg", "fakefile3.jpg" };
 
-			Assert.Throws<IOException>(() => ComicBuilder.CreateCBT(fakeFiles, cbtPath));
-		}
-	}
+            Assert.Throws<IOException>(() => ComicBuilder.CreateCBT(fakeFiles, cbtPath));
+        }
+    }
 }

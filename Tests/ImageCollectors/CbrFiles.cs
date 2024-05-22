@@ -8,9 +8,8 @@ namespace Test.ImageCollector
 {
     public class CbrFiles
     {
-        
         private const string outputDir = "ImagesFromRarDir";
-        
+
         [Fact]
         public void Unrar()
         {
@@ -57,7 +56,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-			Assert.Throws<System.FormatException>(() => ImageExtractors.UnRar(Samples.CBRPATH, ""));
+            Assert.Throws<System.FormatException>(() => ImageExtractors.UnRar(Samples.CBRPATH, ""));
         }
     }
 }
