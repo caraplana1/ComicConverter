@@ -1,6 +1,5 @@
 using Xunit;
 using System.IO;
-using System.Linq;
 using ComicConverter;
 using System.Collections.Generic;
 
@@ -45,7 +44,7 @@ namespace Test.ImageCollector
             ImageExtractors.UnZip(Samples.CBZPATH, folderToCompare);
 
             // Get a list of all files in current directory
-            List<string> filesExtracted = Directory.GetFiles(".").ToList<string>();
+            List<string> filesExtracted = [.. Directory.GetFiles(".")];
 
             foreach (var file in Directory.GetFiles(folderToCompare))
             {

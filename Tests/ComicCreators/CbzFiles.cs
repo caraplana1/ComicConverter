@@ -20,10 +20,10 @@ namespace Test.ComicCreators
             File.Delete($"{cbzPath}.cbz");
         }
 
-        [Fact]
-        public void ImagesNotFound()
-        {
-            string[] files = { "Fakename", "fakename2", "fakename3" };
+		[Fact]
+		public void ImagesNotFound()
+		{
+            string[] files = ["Fakename", "fakename2", "fakename3"];
 
             Assert.Throws<IOException>(() => ComicBuilder.CreateCBZ(files, cbzPath));
         }

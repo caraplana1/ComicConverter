@@ -1,7 +1,5 @@
 using Xunit;
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.IO;
 using ComicConverter;
 
@@ -21,11 +19,11 @@ namespace Test.ComicCreators
             File.Delete("pdftest.pdf");
         }
 
-        [Fact]
+		[Fact]
         public void FilesAreNotImages()
-        {
-            var images = Directory.GetFiles(Samples.IMAGESDIR);
-            images = images.ToList().Append(Samples.FAKEIMAGE).ToArray();
+		{
+			var images = Directory.GetFiles(Samples.IMAGESDIR);
+			images = [.. images, Samples.FAKEIMAGE];
 
             Assert.ThrowsAny<Exception>(() => ComicBuilder.CreatePdf(images, "pdftest"));
         }

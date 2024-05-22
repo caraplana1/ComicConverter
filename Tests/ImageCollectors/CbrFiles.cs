@@ -1,6 +1,5 @@
 using Xunit;
 using System.IO;
-using System.Linq;
 using ComicConverter;
 using System.Collections.Generic;
 
@@ -40,7 +39,7 @@ namespace Test.ImageCollector
             ImageExtractors.UnRar(Samples.CBRPATH, "Folder");
             ImageExtractors.UnRar(Samples.CBRPATH);
 
-            List<string> filesExtracted = Directory.GetFiles(".").ToList<string>();
+            List<string> filesExtracted = [.. Directory.GetFiles(".")];
 
             foreach (var file in Directory.GetFiles("Folder"))
             {
