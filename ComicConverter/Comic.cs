@@ -96,10 +96,25 @@ namespace ComicConverter
                 return ComicFormat.CBT;
             if (SevenZipArchive.IsSevenZipFile(Path))
                 return ComicFormat.CB7;
-            if (Path.EndsWith(".pdf"))
+            if (IsValidPDF())
                 return ComicFormat.PDF;
 
-            throw new FormatException("The file cannot be used beacuse is not in a propper format.");
+            throw new FormatException("File is not in proper format");
+        }
+
+        /// <summary>
+        /// Verify if the comic file PDF encrypted
+        /// </summary>
+        /// <returns>True if it is a valid pdf, false otherwise</returns>
+        private bool IsValidPDF()
+        {
+            StreamReader file = new(Path);
+            string firstLine = file.ReadLine().Substring(0, 4);
+
+            if (firstLine == "%PDF")
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
