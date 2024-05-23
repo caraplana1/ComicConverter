@@ -141,12 +141,12 @@ namespace ComicConverter
         /// </summary>
         /// <param name="filePath">Pdf file</param>
         /// <param name="outputDir">Output directory</param>
-	public static void ExtractPdfImages(string filePath, string outputDir = ".")
+        public static void ExtractPdfImages(string filePath, string outputDir = ".")
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException();
 
-            if (!filePath.EndsWith(".pdf") || outputDir?.Length == 0)
+            if (!IsValidPDF(filePath) || outputDir?.Length == 0)
                 throw new FormatException();
 
             DirectoryInfo dir = Directory.CreateDirectory(outputDir);
@@ -195,6 +195,21 @@ namespace ComicConverter
             BinaryWriter bw = new(fs);
             bw.Write(stream);
             bw.Close();
+        }
+
+        /// <summary>
+        /// Verify if the comic file PDF encrypted
+        /// </summary>
+        /// <returns>True if it is a valid pdf, false otherwise</returns>
+        static private bool IsValidPDF(string path)
+        {
+            StreamReader file = new(path);
+            string firstLine = file.ReadLine().Substring(0, 4);
+
+            if (firstLine == "%PDF")
+                return true;
+            else
+                return false;
         }
     }
 }

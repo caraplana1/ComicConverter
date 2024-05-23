@@ -19,11 +19,11 @@ namespace Test.ComicCreators
             File.Delete("pdftest.pdf");
         }
 
-		[Fact]
+        [Fact]
         public void FilesAreNotImages()
-		{
-			var images = Directory.GetFiles(Samples.IMAGESDIR);
-			images = [.. images, Samples.FAKEIMAGE];
+        {
+            var images = Directory.GetFiles(Samples.IMAGESDIR);
+            images = [.. images, Samples.FAKEIMAGE];
 
             Assert.ThrowsAny<Exception>(() => ComicBuilder.CreatePdf(images, "pdftest"));
         }
