@@ -42,6 +42,28 @@ namespace ComicConverter
             Format = FindComicFormat();
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="comicPath">Direction of the comic file.</param>
+        /// <param name="format">Specify the format</param>
+        /// <exception cref="FileNotFoundException"></exception>
+        public Comic(string comicPath, ComicFormat format)
+        {
+            if (!File.Exists(comicPath))
+                throw new FileNotFoundException();
+            else
+                Path = comicPath;
+
+            Format = format;
+        }
+
+        /// <summary>
+        /// Convert the file to the given format.
+        /// </summary>
+        /// <param name="outputPath">File name to be converted.(without extension)</param>
+        /// <param name="format">Format to be converted.</param>
+        /// <exception cref="FormatException"></exception>
         public void Convert(string outputPath, ComicFormat format)
         {
             if (!IsValidOutputFormat(format))
@@ -50,10 +72,10 @@ namespace ComicConverter
             DirectoryInfo dir = Directory.CreateDirectory(".ConvertedImagesHiddenDir");
             dir.Attributes = FileAttributes.Hidden | FileAttributes.Directory;
 
-            var ExtractImages = FindExtractorImageAction(this.Format);
+            var ExtractImages = FindExtractorImageAction(Format);
             var BuildComic = FindComicBuilderAction(format);
 
-            ExtractImages(this.Path, dir.Name);
+            ExtractImages(Path, dir.Name);
 
             BuildComic(Directory.GetFiles(dir.Name), outputPath);
 
