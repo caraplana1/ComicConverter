@@ -12,7 +12,7 @@
 		<RepositoryUrl>https://github.com/caraplana1/ComicConverter</RepositoryUrl>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="PdfSharpCore" Version="1.3.10"/>
-		<PackageReference Include="SharpCompress" Version="0.30.1"/>
+		<PackageReference Include="PdfSharpCore" Version="1.3.63" />
+		<PackageReference Include="SharpCompress" Version="0.37.2" />
 	</ItemGroup>
 </Project>
