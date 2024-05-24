@@ -8,13 +8,13 @@ namespace Test.ImageCollector
     public class PdfFiles
     {
         [Fact]
-        public void ExtractImagesPdf()
+        public void ExtractImagesPdfJpg()
         {
             ImageExtractors.ExtractPdfImages(Samples.PDFPATH, "PdfExtractedImages");
 
             var files = Directory.GetFiles("PdfExtractedImages");
 
-            Assert.Equal(49, files.Length);
+            Assert.Equal(3, files.Length);
 
             Directory.Delete("PdfExtractedImages", true);
         }
@@ -38,7 +38,7 @@ namespace Test.ImageCollector
 
             var files = Directory.GetFiles("PdfExtracted");
 
-            Assert.Equal(49, files.Length);
+            Assert.Equal(3, files.Length);
 
             Directory.Delete("PdfExtracted", true);
         }

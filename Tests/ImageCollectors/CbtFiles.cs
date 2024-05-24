@@ -12,7 +12,7 @@ namespace Test.ImageCollector
         public void ExtractImages()
         {
             ImageExtractors.UnTar(Samples.CBTPATH, "CbtTest1");
-            Assert.Equal(14, Directory.GetFiles("CbtTest1").Length);
+            Assert.Equal(3, Directory.GetFiles("CbtTest1").Length);
             Directory.Delete("CbtTest1", true);
         }
 

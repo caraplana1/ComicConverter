@@ -42,6 +42,28 @@ namespace ComicConverter
             Format = FindComicFormat();
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="comicPath">Direction of the comic file.</param>
+        /// <param name="format">Specify the format</param>
+        /// <exception cref="FileNotFoundException"></exception>
+        public Comic(string comicPath, ComicFormat format)
+        {
+            if (!File.Exists(comicPath))
+                throw new FileNotFoundException();
+            else
+                Path = comicPath;
+
+            Format = format;
+        }
+
+        /// <summary>
+        /// Convert the file to the given format.
+        /// </summary>
+        /// <param name="outputPath">File name to be converted.(without extension)</param>
+        /// <param name="format">Format to be converted.</param>
+        /// <exception cref="FormatException"></exception>
         public void Convert(string outputPath, ComicFormat format)
         {
             if (!IsValidOutputFormat(format))
@@ -50,10 +72,10 @@ namespace ComicConverter
             DirectoryInfo dir = Directory.CreateDirectory(".ConvertedImagesHiddenDir");
             dir.Attributes = FileAttributes.Hidden | FileAttributes.Directory;
 
-            var ExtractImages = FindExtractorImageAction(this.Format);
+            var ExtractImages = FindExtractorImageAction(Format);
             var BuildComic = FindComicBuilderAction(format);
 
-            ExtractImages(this.Path, dir.Name);
+            ExtractImages(Path, dir.Name);
 
             BuildComic(Directory.GetFiles(dir.Name), outputPath);
 
@@ -74,10 +96,25 @@ namespace ComicConverter
                 return ComicFormat.CBT;
             if (SevenZipArchive.IsSevenZipFile(Path))
                 return ComicFormat.CB7;
-            if (Path.EndsWith(".pdf"))
+            if (IsValidPDF())
                 return ComicFormat.PDF;
 
-            throw new FormatException("The file cannot be used beacuse is not in a propper format.");
+            throw new FormatException("File is not in proper format");
+        }
+
+        /// <summary>
+        /// Verify if the comic file PDF encrypted
+        /// </summary>
+        /// <returns>True if it is a valid pdf, false otherwise</returns>
+        private bool IsValidPDF()
+        {
+            StreamReader file = new(Path);
+            string firstLine = file.ReadLine().Substring(0, 7);
+
+            if (firstLine == "%PDF-1.")
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
