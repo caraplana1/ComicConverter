@@ -204,9 +204,9 @@ namespace ComicConverter
         static private bool IsValidPDF(string path)
         {
             StreamReader file = new(path);
-            string firstLine = file.ReadLine().Substring(0, 4);
+            string firstLine = file.ReadLine().Substring(0, 7);
 
-            if (firstLine == "%PDF")
+            if (firstLine == "%PDF-1.")
                 return true;
             else
                 return false;
