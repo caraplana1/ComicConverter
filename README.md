@@ -4,7 +4,7 @@ A multi-plataform .NET library written in Net standard 2.0 for comic file format
 
 ## Suported Formats
 
-These are the format that we current support.
+These are the format that we currently support.
 
 | Format | Extract Images |   Create Comic   |
 | :----: | :------------: | :--------------: |
@@ -13,6 +13,8 @@ These are the format that we current support.
 |  CBT  |      ✔️      |       ✔️       |
 |  CB7  |      ✔️      |        ❌        |
 |  PDF  | :heavy_check_mark:(only jpeg) | :heavy_check_mark: |
+
+We can't make cbr files due to RAR compression algorithm lincense.
 
 ## Samples
 
