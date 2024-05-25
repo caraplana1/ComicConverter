@@ -110,6 +110,7 @@ namespace ComicConverter
         {
             StreamReader file = new(Path);
             string firstLine = file.ReadLine().Substring(0, 7);
+            file.Close();
 
             if (firstLine == "%PDF-1.")
                 return true;
