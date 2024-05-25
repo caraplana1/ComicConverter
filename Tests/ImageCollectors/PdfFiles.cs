@@ -11,12 +11,17 @@ namespace Test.ImageCollector
         public void ExtractImagesPdfJpg()
         {
             ImageExtractors.ExtractPdfImages(Samples.PDFPATH, "PdfExtractedImages");
+            ImageExtractors.ExtractPdfImages(Samples.PDFPNGPATH, "PdfPNGExtractedImages");
 
-            var files = Directory.GetFiles("PdfExtractedImages");
-
-            Assert.Equal(3, files.Length);
+            var files = Directory.GetFiles("PdfExtractedImages").Length;
+            var filesPNG = Directory.GetFiles("PdfPNGExtractedImages").Length;
 
             Directory.Delete("PdfExtractedImages", true);
+            Directory.Delete("PdfPNGExtractedImages", true);
+
+            Assert.Equal(3, files);
+            Assert.Equal(3, filesPNG);
+
         }
 
         [Fact]
