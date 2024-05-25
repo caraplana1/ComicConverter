@@ -10,8 +10,8 @@ namespace Test.ImageCollector
         [Fact]
         public void ExtractImagesPdfJpg()
         {
-            ImageExtractors.ExtractPdfImages(Samples.PDFPATH, "PdfExtractedImages");
-            ImageExtractors.ExtractPdfImages(Samples.PDFPNGPATH, "PdfPNGExtractedImages");
+            ImageExporter.ExportPdfImages(Samples.PDFPATH, "PdfExtractedImages");
+            ImageExporter.ExportPdfImages(Samples.PDFPNGPATH, "PdfPNGExtractedImages");
 
             var files = Directory.GetFiles("PdfExtractedImages").Length;
             var filesPNG = Directory.GetFiles("PdfPNGExtractedImages").Length;
@@ -27,19 +27,19 @@ namespace Test.ImageCollector
         [Fact]
         public void FileIsNotPdf()
         {
-            Assert.Throws<FormatException>(() => ImageExtractors.ExtractPdfImages(Samples.CBRPATH));
+            Assert.Throws<FormatException>(() => ImageExporter.ExportPdfImages(Samples.CBRPATH));
         }
 
         [Fact]
         public void FileNotFound()
         {
-            Assert.Throws<FileNotFoundException>(() => ImageExtractors.ExtractPdfImages("FakeFile.pdf"));
+            Assert.Throws<FileNotFoundException>(() => ImageExporter.ExportPdfImages("FakeFile.pdf"));
         }
 
         [Fact]
         public void EmptyAttrubuteDirectory()
         {
-            ImageExtractors.ExtractPdfImages(Samples.PDFPATH, "PdfExtracted");
+            ImageExporter.ExportPdfImages(Samples.PDFPATH, "PdfExtracted");
 
             var files = Directory.GetFiles("PdfExtracted");
 
@@ -51,7 +51,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<FormatException>(() => ImageExtractors.ExtractPdfImages(Samples.PDFPATH, ""));
+            Assert.Throws<FormatException>(() => ImageExporter.ExportPdfImages(Samples.PDFPATH, ""));
         }
     }
 }

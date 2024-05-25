@@ -144,11 +144,11 @@ namespace ComicConverter
         {
             return format switch
             {
-                ComicFormat.CBR => ImageExtractors.UnRar,
-                ComicFormat.CBZ => ImageExtractors.UnZip,
-                ComicFormat.CBT => ImageExtractors.UnTar,
-                ComicFormat.CB7 => ImageExtractors.UnSevenZip,
-                ComicFormat.PDF => ImageExtractors.ExtractPdfImages,
+                ComicFormat.CBR => ImageExporter.UnRar,
+                ComicFormat.CBZ => ImageExporter.UnZip,
+                ComicFormat.CBT => ImageExporter.UnTar,
+                ComicFormat.CB7 => ImageExporter.UnSevenZip,
+                ComicFormat.PDF => ImageExporter.ExportPdfImages,
                 _ => throw new FormatException(),
             };
         }

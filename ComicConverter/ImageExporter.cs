@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 
 namespace ComicConverter
 {
-    public static class ImageExtractors
+    public static class ImageExporter
     {
         /// <summary>
         /// Extract rar or cbr file in given directory.
@@ -140,11 +140,11 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Extract Jpeg from pdf file to a directory.
+        /// Export images from pdf document.
         /// </summary>
         /// <param name="filePath">Pdf file</param>
         /// <param name="outputDir">Output directory</param>
-        public static void ExtractPdfImages(string filePath, string outputDir = ".")
+        public static void ExportPdfImages(string filePath, string outputDir = ".")
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException();
@@ -200,10 +200,10 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// 
+        /// Detects the image encoded and extract the image.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="name"></param>
+        /// <param name="image">Bytes that represent an image.</param>
+        /// <param name="name">Name of the stream to save the image.</param>
         static private void ExportImage(PdfDictionary image, string name)
         {
             string filter = image.Elements.GetName("/Filter");
@@ -215,7 +215,7 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Write to a file the jpeg bytes.
+        /// Save a file with jpeg codification.
         /// </summary>
         /// <param name="image">Bytes that represent an image.</param>
         /// <param name="name">Name of the stream to save the image.</param>
@@ -229,11 +229,10 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// 
+        /// Save a file with Png codification.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="name"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <param name="image">Bytes that represent an image.</param>
+        /// <param name="name">Name of the stream to save the image.</param>
         private static void ExportPngImage(PdfDictionary image, string name)
         {
             int width = image.Elements.GetInteger(PdfImage.Keys.Width);

@@ -12,7 +12,7 @@ namespace Test.ImageCollector
         {
             const string path = "ZipTestDir";
 
-            ImageExtractors.UnZip(Samples.CBZPATH, path); // Descompress File.
+            ImageExporter.UnZip(Samples.CBZPATH, path); // Descompress File.
 
             Assert.True(Directory.Exists(path)); // Makes sure the directory is created.
 
@@ -25,13 +25,13 @@ namespace Test.ImageCollector
         [Fact]
         public void FileIsNotZip()
         {
-            Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(Samples.TESTPATH));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnZip(Samples.TESTPATH));
         }
 
         [Fact]
         public void FileNotFound()
         {
-            Assert.Throws<FileNotFoundException>(() => ImageExtractors.UnZip("FakeFile.txt"));
+            Assert.Throws<FileNotFoundException>(() => ImageExporter.UnZip("FakeFile.txt"));
         }
 
         [Fact]
@@ -40,8 +40,8 @@ namespace Test.ImageCollector
             const string folderToCompare = "TestFolderToCompare";
 
             // Extract the same file in the current directory and in the output directoty
-            ImageExtractors.UnZip(Samples.CBZPATH);
-            ImageExtractors.UnZip(Samples.CBZPATH, folderToCompare);
+            ImageExporter.UnZip(Samples.CBZPATH);
+            ImageExporter.UnZip(Samples.CBZPATH, folderToCompare);
 
             // Get a list of all files in current directory
             List<string> filesExtracted = [.. Directory.GetFiles(".")];
@@ -59,7 +59,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(Samples.CBZPATH, ""));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnZip(Samples.CBZPATH, ""));
         }
     }
 }

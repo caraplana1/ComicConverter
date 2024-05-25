@@ -11,7 +11,7 @@ namespace Test.ImageCollector
         [Fact]
         public void ExtractImages()
         {
-            ImageExtractors.UnTar(Samples.CBTPATH, "CbtTest1");
+            ImageExporter.UnTar(Samples.CBTPATH, "CbtTest1");
             Assert.Equal(3, Directory.GetFiles("CbtTest1").Length);
             Directory.Delete("CbtTest1", true);
         }
@@ -19,20 +19,20 @@ namespace Test.ImageCollector
         [Fact]
         public void FilesIsNotTar()
         {
-            Assert.Throws<FormatException>(() => ImageExtractors.UnTar(Samples.CBRPATH));
+            Assert.Throws<FormatException>(() => ImageExporter.UnTar(Samples.CBRPATH));
         }
 
         [Fact]
         public void FileNotFound()
         {
-            Assert.Throws<FileNotFoundException>(() => ImageExtractors.UnTar(Samples.FAKEFILE));
+            Assert.Throws<FileNotFoundException>(() => ImageExporter.UnTar(Samples.FAKEFILE));
         }
 
         [Fact]
         public void EmptyAttributeDirectory()
         {
-            ImageExtractors.UnTar(Samples.CBTPATH, "cbtTest2");
-            ImageExtractors.UnTar(Samples.CBTPATH);
+            ImageExporter.UnTar(Samples.CBTPATH, "cbtTest2");
+            ImageExporter.UnTar(Samples.CBTPATH);
 
             var files = Directory.GetFiles("cbtTest2").ToList();
             var filesCurrentDir = Directory.GetFiles(".").ToList();
@@ -49,7 +49,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<FormatException>(() => ImageExtractors.UnTar(Samples.CBTPATH, ""));
+            Assert.Throws<FormatException>(() => ImageExporter.UnTar(Samples.CBTPATH, ""));
         }
     }
 }

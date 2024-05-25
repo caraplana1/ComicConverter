@@ -1,27 +1,28 @@
 # Class Documentation
 
-List of class Components.
+List of class.
 
 ## Index
 
 * [Comic](#comic-class)
 * [ComicBuilder](#comicbuilder-class)
-* [ImageExtractors](#imageextractors-class)
+* [ImageExporter](#imageexporter-class)
 * [ComicFormat](#comicformat-enum)
 
 ## Comic (class)
 
 ### Attributes
 
-* `Path` - `Public String <br/>
+* `Path` - `Public String` <br/>
   Comic File direction.
 
-* `Format` - `Public ComicFormat <br/>
+* `Format` - `Public ComicFormat` <br/>
   Comic's format enum.
 
 ### Constructors
 
 * `Comic(string comicPath)`
+* `Comic(string comicPath, ComicFormat format)`
 
 ### Methods
 
@@ -56,7 +57,7 @@ List of class Components.
 * `CreateHiddenDir(string[] filesPaths, string dirName)` - `Private DirectoryInfo` <br>
   Simple funtion to create a hidden directory and copy all files specificataed.
 
-## ImageExtractors (class)
+## ImageExporter (class)
 
 ### Methods
 
