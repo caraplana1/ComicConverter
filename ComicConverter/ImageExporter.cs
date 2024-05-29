@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
-using SharpCompress.Archives.SevenZip;
 using System.Runtime.InteropServices;
 
 namespace ComicConverter
@@ -20,7 +19,7 @@ namespace ComicConverter
     public static class ImageExporter
     {
         /// <summary>
-        /// Extract rar or cbr file in given directory.
+        /// Export rar or cbr file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
@@ -50,7 +49,7 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Extract zip or cbz file in given directory.
+        /// Export zip or cbz file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract.</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
@@ -80,7 +79,7 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Extract tar or cbt file in given directory.
+        /// Export tar or cbt file in given directory.
         /// </summary>
         /// <param name="filePath">File to extract</param>
         /// <param name="outputDir">Directory to store extracted files.</param>
@@ -100,36 +99,6 @@ namespace ComicConverter
             using TarArchive tar = TarArchive.Open(filePath);
 
             foreach (var entry in tar.Entries.Where(x => !x.IsDirectory))
-            {
-                entry.WriteToDirectory(outputDir, new ExtractionOptions()
-                {
-                    Overwrite = true,
-                    ExtractFullPath = false
-                });
-            }
-        }
-
-        /// <summary>
-        /// Extract 7z or cb7 file in given directory.
-        /// </summary>
-        /// <param name="filePath">File to extract</param>
-        /// <param name="outputDir">Directory to store extracted files.</param>
-        public static void UnSevenZip(string filePath, string outputDir = ".")
-        {
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException();
-
-            if (string.IsNullOrEmpty(outputDir))
-                throw new FormatException("The directoty cannot be null or empty");
-
-            if (!SevenZipArchive.IsSevenZipFile(filePath))
-                throw new FormatException("The file is not a 7z file");
-
-            Directory.CreateDirectory(outputDir);
-
-            using SevenZipArchive sevenZip = SevenZipArchive.Open(filePath);
-
-            foreach (var entry in sevenZip.Entries.Where(x => !x.IsDirectory))
             {
                 entry.WriteToDirectory(outputDir, new ExtractionOptions()
                 {
@@ -190,17 +159,17 @@ namespace ComicConverter
         static private bool IsValidPDF(string path)
         {
             StreamReader file = new(path);
-            string firstLine = file.ReadLine().Substring(0, 7);
+            string firstLine = file.ReadLine().Substring(0, 8);
             file.Close();
 
-            if (firstLine == "%PDF-1.")
+            if (firstLine == "%PDF-1.4" || firstLine == "%PDF-1.5")
                 return true;
             else
                 return false;
         }
 
         /// <summary>
-        /// Detects the image encoded and extract the image.
+        /// Detects the image encoded and export the image.
         /// </summary>
         /// <param name="image">Bytes that represent an image.</param>
         /// <param name="name">Name of the stream to save the image.</param>

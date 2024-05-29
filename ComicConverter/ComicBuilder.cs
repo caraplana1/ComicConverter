@@ -81,10 +81,10 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Simple funtion to create a hidden directory and copy all files specificataed.
+        /// Create a hidden directory and copy all files specificataed.
         /// </summary>
         /// <param name="filesPaths">Files wanted to copy on the directory</param>
-        /// <returns>Directory info</returns>
+        /// <returns>Directory info class</returns>
         private static DirectoryInfo CreateHiddenDir(string[] filesPaths, string dirName)
         {
             DirectoryInfo dir = Directory.CreateDirectory(dirName);

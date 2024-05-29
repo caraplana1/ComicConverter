@@ -3,7 +3,6 @@ using System.IO;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
-using SharpCompress.Archives.SevenZip;
 
 namespace ComicConverter
 {
@@ -43,22 +42,6 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="comicPath">Direction of the comic file.</param>
-        /// <param name="format">Specify the format</param>
-        /// <exception cref="FileNotFoundException"></exception>
-        public Comic(string comicPath, ComicFormat format)
-        {
-            if (!File.Exists(comicPath))
-                throw new FileNotFoundException();
-            else
-                Path = comicPath;
-
-            Format = format;
-        }
-
-        /// <summary>
         /// Convert the file to the given format.
         /// </summary>
         /// <param name="outputPath">File name to be converted.(without extension)</param>
@@ -94,8 +77,6 @@ namespace ComicConverter
                 return ComicFormat.CBZ;
             if (TarArchive.IsTarFile(Path))
                 return ComicFormat.CBT;
-            if (SevenZipArchive.IsSevenZipFile(Path))
-                return ComicFormat.CB7;
             if (IsValidPDF())
                 return ComicFormat.PDF;
 
@@ -109,10 +90,10 @@ namespace ComicConverter
         private bool IsValidPDF()
         {
             StreamReader file = new(Path);
-            string firstLine = file.ReadLine().Substring(0, 7);
+            string firstLine = file.ReadLine().Substring(0, 8);
             file.Close();
 
-            if (firstLine == "%PDF-1.")
+            if (firstLine == "%PDF-1.4" || firstLine == "%PDF-1.5")
                 return true;
             else
                 return false;
@@ -147,7 +128,6 @@ namespace ComicConverter
                 ComicFormat.CBR => ImageExporter.UnRar,
                 ComicFormat.CBZ => ImageExporter.UnZip,
                 ComicFormat.CBT => ImageExporter.UnTar,
-                ComicFormat.CB7 => ImageExporter.UnSevenZip,
                 ComicFormat.PDF => ImageExporter.ExportPdfImages,
                 _ => throw new FormatException(),
             };
