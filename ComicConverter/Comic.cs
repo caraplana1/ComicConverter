@@ -20,7 +20,7 @@ namespace ComicConverter
         public string Path { get; }
 
         /// <summary>
-        /// The given comic's format enum.
+        /// Comic's format enum.
         /// </summary>
         /// <value>Enum</value>
         public ComicFormat Format { get; }
