@@ -1,24 +1,25 @@
 # ComicConverter
 
-A multi-plataform .NET library written in Net standard 2.0 for comic file formating.
+A multi-plataform .NET library written in Net standard 2.0 for comic formating.
 
 ## Suported Formats
 
-These are the format that we currently support.
+These are the comic formats that we currently support.
 
 | Format | Extract Images |   Create Comic   |
 | :----: | :------------: | :--------------: |
 |  CBR  |      ✔️      |        ❌        |
 |  CBZ  |      ✔️      |       ✔️       |
 |  CBT  |      ✔️      |       ✔️       |
-|  CB7  |      ✔️      |        ❌        |
 |  PDF  | :heavy_check_mark: | :heavy_check_mark: |
 
-We can't make cbr files due to RAR compression algorithm lincense.
+We can't convert to CBR files due to RAR compression algorithm lincense.
 
 ## Samples
 
-For start using the library just compy and paste `using ComicConverter;` and follow the next examples depending of your case.
+For start using the library just paste `using ComicConverter;` in your C# file and follow the next examples depending of what you want.\
+- **Note**:  
+**The final file result will append the file extension to the given name**
 
 - **Convert CBR to PDF.**
 
