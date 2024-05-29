@@ -8,16 +8,19 @@ namespace Test.ImageCollector
     public class PdfFiles
     {
         [Fact]
-        public void ExtractImagesPdfJpg()
+        public void ExtractImagesPdf()
         {
-            ImageExporter.ExportPdfImages(Samples.PDFPATH, "PdfExtractedImages");
-            ImageExporter.ExportPdfImages(Samples.PDFPNGPATH, "PdfPNGExtractedImages");
+            string pdfDir = "PdfExtractedImages";
+            string pdfPngDir = "PdfPNGExtractedImages";
 
-            var files = Directory.GetFiles("PdfExtractedImages").Length;
-            var filesPNG = Directory.GetFiles("PdfPNGExtractedImages").Length;
+            ImageExporter.ExportPdfImages(Samples.PDFPATH, pdfDir);
+            ImageExporter.ExportPdfImages(Samples.PDFPNGPATH, pdfPngDir);
 
-            Directory.Delete("PdfExtractedImages", true);
-            Directory.Delete("PdfPNGExtractedImages", true);
+            var files = Directory.GetFiles(pdfDir).Length;
+            var filesPNG = Directory.GetFiles(pdfPngDir).Length;
+
+            Directory.Delete(pdfDir, true);
+            Directory.Delete(pdfPngDir, true);
 
             Assert.Equal(3, files);
             Assert.Equal(3, filesPNG);
@@ -39,13 +42,14 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyAttrubuteDirectory()
         {
-            ImageExporter.ExportPdfImages(Samples.PDFPATH, "PdfExtracted");
+            string pdfExport = "PdfExported";
 
-            var files = Directory.GetFiles("PdfExtracted");
+            ImageExporter.ExportPdfImages(Samples.PDFPATH, pdfExport);
+
+            var files = Directory.GetFiles(pdfExport);
+            Directory.Delete(pdfExport, true);
 
             Assert.Equal(3, files.Length);
-
-            Directory.Delete("PdfExtracted", true);
         }
 
         [Fact]

@@ -7,49 +7,52 @@ namespace Test.ImageCollector
 {
     public class CbrFiles
     {
-        private const string outputDir = "ImagesFromRarDir";
 
         [Fact]
         public void Unrar()
         {
-            string[] extractedFiles;
+            string outputDir = "CbrTest1";
+            int extractedFiles;
 
             ImageExporter.UnRar(Samples.CBRPATH, outputDir);
 
-            extractedFiles = Directory.GetFiles(outputDir);
+            extractedFiles = Directory.GetFiles(outputDir).Length;
             Directory.Delete(outputDir, true);
-            Assert.True(extractedFiles.Length > 0);
+            Assert.Equal(3, extractedFiles);
         }
 
         [Fact]
         public void FileIsNotRar()
         {
+            string outputDir = "CbrTest2";
             Assert.Throws<System.FormatException>(() => ImageExporter.UnRar(Samples.TESTPATH, outputDir));
         }
 
         [Fact]
         public void FileNotFound()
         {
+            string outputDir = "CbrTest3";
             Assert.Throws<FileNotFoundException>(() => ImageExporter.UnRar(Samples.FAKEFILE, outputDir));
         }
 
         [Fact]
         public void EmptyAttributeDirectory()
         {
-            ImageExporter.UnRar(Samples.CBRPATH, "Folder");
+            string outputDir = "CbrTest4";
+            ImageExporter.UnRar(Samples.CBRPATH, outputDir);
             ImageExporter.UnRar(Samples.CBRPATH);
 
             List<string> filesExtracted = [.. Directory.GetFiles(".")];
 
-            foreach (var file in Directory.GetFiles("Folder"))
+            foreach (var file in Directory.GetFiles(outputDir))
             {
-                if (!filesExtracted.Contains(file.Replace("Folder", ".")))
+                if (!filesExtracted.Contains(file.Replace(outputDir, ".")))
                     Assert.True(false);
                 else
-                    File.Delete(file.Replace("Folder", "."));
+                    File.Delete(file.Replace(outputDir, "."));
             }
 
-            Directory.Delete("Folder", true);
+            Directory.Delete(outputDir, true);
         }
 
         [Fact]

@@ -7,16 +7,18 @@ namespace Test
 {
     public class ComicConverter
     {
+        private const string ComicName = "Test";
+
         [Fact]
         public void ConvertCbr2Cbz()
         {
             Comic comic = new(Samples.CBRPATH);
 
-            comic.Convert("Test", ComicFormat.CBZ);
+            comic.Convert(ComicName, ComicFormat.CBZ);
 
-            Assert.True(File.Exists("Test.cbz"));
+            Assert.True(File.Exists($"{ComicName}.cbz"));
 
-            File.Delete("Test.cbz");
+            File.Delete($"{ComicName}.cbz");
         }
 
         [Fact]
@@ -24,11 +26,11 @@ namespace Test
         {
             Comic comic = new(Samples.CBZPATH);
 
-            comic.Convert("Test", ComicFormat.CBT);
+            comic.Convert(ComicName, ComicFormat.CBT);
 
-            Assert.True(File.Exists("Test.cbt"));
+            Assert.True(File.Exists($"{ComicName}.cbt"));
 
-            File.Delete("Test.cbt");
+            File.Delete($"{ComicName}.cbt");
         }
 
         [Fact]
@@ -60,7 +62,7 @@ namespace Test
         {
             Comic comic = new(Samples.CBZPATH);
 
-            Assert.Throws<FormatException>(() => comic.Convert("Test", ComicFormat.CBR));
+            Assert.Throws<FormatException>(() => comic.Convert(ComicName, ComicFormat.CBR));
         }
 
         [Fact]

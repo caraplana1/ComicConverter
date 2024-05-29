@@ -6,7 +6,7 @@ namespace Test.ComicCreators
 {
     public class CbtFiles
     {
-        private const string cbtPath = "CreatedCbtFile";
+        private const string cbtPath = "CreatedCbtFileTest";
 
         [Fact]
         public void CreateCbt()

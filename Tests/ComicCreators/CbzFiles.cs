@@ -6,7 +6,7 @@ namespace Test.ComicCreators
 {
     public class CbzFiles
     {
-        private const string cbzPath = "CreatedCbzFile";
+        private const string cbzPath = "CreatedCbzFileTest";
 
         [Fact]
         public void CreateCbz()

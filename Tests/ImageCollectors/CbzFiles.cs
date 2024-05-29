@@ -10,16 +10,16 @@ namespace Test.ImageCollector
         [Fact]
         public void UnZip()
         {
-            const string path = "ZipTestDir";
+            const string path = "ZipExportDir";
 
             ImageExporter.UnZip(Samples.CBZPATH, path); // Descompress File.
 
             Assert.True(Directory.Exists(path)); // Makes sure the directory is created.
 
-            string[] filesExtracted = Directory.GetFiles(path);
+            int files = Directory.GetFiles(path).Length;
             Directory.Delete(path, true);
 
-            Assert.True(filesExtracted.Length > 0); // Makes sure that the directory isnot empty.
+            Assert.Equal(3, files);
         }
 
         [Fact]
@@ -37,14 +37,14 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyAttributeDirectory()
         {
-            const string folderToCompare = "TestFolderToCompare";
+            const string folderToCompare = "TestCbzFolderToCompare";
 
             // Extract the same file in the current directory and in the output directoty
             ImageExporter.UnZip(Samples.CBZPATH);
+            List<string> filesExtracted = [.. Directory.GetFiles(".")];
             ImageExporter.UnZip(Samples.CBZPATH, folderToCompare);
 
             // Get a list of all files in current directory
-            List<string> filesExtracted = [.. Directory.GetFiles(".")];
 
             foreach (var file in Directory.GetFiles(folderToCompare))
             {
