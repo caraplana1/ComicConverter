@@ -1,14 +1,12 @@
 ﻿using System;
+using SkiaSharp;
 using System.IO;
 using System.Linq;
-using System.Drawing;
-using System.Drawing.Imaging;
 using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.Advanced;
 using PdfSharpCore.Pdf.IO;
 using SharpCompress.Common;
 using SharpCompress.Archives;
-using System.Collections.Generic;
+using PdfSharpCore.Pdf.Advanced;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
@@ -32,7 +30,7 @@ namespace ComicConverter
                 throw new FormatException("The file is not a rar file");
 
             if (string.IsNullOrEmpty(outputDir))
-                throw new FormatException("The directoty cannot be null or empty");
+                throw new FormatException("The directory cannot be null or empty");
 
             Directory.CreateDirectory(outputDir);
 
@@ -62,7 +60,7 @@ namespace ComicConverter
                 throw new FormatException("The file is not a zip file");
 
             if (string.IsNullOrEmpty(outputDir))
-                throw new FormatException("The directoty cannot be null or empty");
+                throw new FormatException("The directory cannot be null or empty");
 
             Directory.CreateDirectory(outputDir);
 
@@ -89,7 +87,7 @@ namespace ComicConverter
                 throw new FileNotFoundException();
 
             if (string.IsNullOrEmpty(outputDir))
-                throw new FormatException("The directoty cannot be null or empty");
+                throw new FormatException("The directory cannot be null or empty");
 
             if (!TarArchive.IsTarFile(filePath))
                 throw new FormatException("The file is not a tar file");
@@ -123,31 +121,23 @@ namespace ComicConverter
 
             DirectoryInfo dir = Directory.CreateDirectory(outputDir);
             FileInfo file = new(filePath);
-            int counter = 0;
+            var counter = 0;
 
-            PdfDocument document = PdfReader.Open(file.FullName);
+            var document = PdfReader.Open(file.FullName);
 
             foreach (var page in document.Pages)
             {
                 PdfDictionary resources = page.Elements.GetDictionary("/Resources");
-                if (resources is not null)
+                PdfDictionary xObjects = resources?.Elements.GetDictionary("/XObject");
+
+                if (xObjects == null) continue;
+                var items = xObjects.Elements.Values;
+
+                foreach (var item in items)
                 {
-                    PdfDictionary xObjects = resources.Elements.GetDictionary("/XObject");
-
-                    if (xObjects is not null)
-                    {
-                        ICollection<PdfItem> items = xObjects.Elements.Values;
-
-                        foreach (var item in items)
-                        {
-                            PdfReference reference = item as PdfReference;
-                            if (reference is not null)
-                            {
-                                if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
-                                    ExportImage(xObject, $"{dir.FullName}/{file.Name.Split('.').First()}{++counter}");
-                            }
-                        }
-                    }
+                    PdfReference reference = item as PdfReference;
+                    if (reference?.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
+                        ExportImage(xObject, $"{dir.FullName}/{file.Name.Split('.').First()}{++counter}");
                 }
             }
         }
@@ -159,13 +149,10 @@ namespace ComicConverter
         static private bool IsValidPDF(string path)
         {
             StreamReader file = new(path);
-            string firstLine = file.ReadLine().Substring(0, 8);
+            var firstLine = file.ReadLine()?.Substring(0, 8);
             file.Close();
 
-            if (firstLine == "%PDF-1.4" || firstLine == "%PDF-1.5")
-                return true;
-            else
-                return false;
+            return firstLine is "%PDF-1.4" or "%PDF-1.5";
         }
 
         /// <summary>
@@ -177,10 +164,15 @@ namespace ComicConverter
         {
             string filter = image.Elements.GetName("/Filter");
 
-            if (filter == "/DCTDecode")
-                ExportJpegFromPdf(image, name);
-            else if (filter == "/FlateDecode")
-                ExportPngImage(image, name);
+            switch (filter)
+            {
+                case "/DCTDecode":
+                    ExportJpegFromPdf(image, name);
+                    break;
+                case "/FlateDecode":
+                    ExportPngImage(image, name);
+                    break;
+            }
         }
 
         /// <summary>
@@ -190,7 +182,7 @@ namespace ComicConverter
         /// <param name="name">Name of the stream to save the image.</param>
         private static void ExportJpegFromPdf(PdfDictionary image, string name)
         {
-            byte[] stream = image.Stream.Value;
+            var stream = image.Stream.Value;
             FileStream fs = new($"{name}.jpeg", FileMode.Create, FileAccess.Write);
             BinaryWriter bw = new(fs);
             bw.Write(stream);
@@ -218,35 +210,15 @@ namespace ComicConverter
                 decodedBytes = flate.Decode(image.Stream.Value, image);
             }
 
-            int bitsPerComponent = 0;
-            while (decodedBytes.Length - ((width * height) * bitsPerComponent / 8) != 0)
-                bitsPerComponent++;
-            var pixelFormat = bitsPerComponent switch
-            {
-                1 => PixelFormat.Format1bppIndexed,
-                8 => PixelFormat.Format8bppIndexed,
-                16 => PixelFormat.Format16bppArgb1555,
-                24 => PixelFormat.Format24bppRgb,
-                32 => PixelFormat.Format32bppArgb,
-                64 => PixelFormat.Format64bppArgb,
-                _ => throw new Exception("Unkwon Pixel format " + bitsPerComponent),
-            };
+            SKBitmap bitmap = new SKBitmap(width, height, true);
+            var pixels = bitmap.GetPixels();
 
-            Bitmap bmp = new(width, height, pixelFormat);
+            Marshal.Copy(decodedBytes, 0, pixels, decodedBytes.Length);
 
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, bmp.PixelFormat);
-
-            int length = (int)Math.Ceiling((double)width * (bitsPerComponent / 8));
-
-            for (int i = 0; i < height; i++)
-            {
-                int offset = i * length;
-                int scanOffset = i * bmpData.Stride;
-                Marshal.Copy(decodedBytes, offset, new IntPtr(bmpData.Scan0.ToInt64() + scanOffset), length);
-            }
-
-            bmp.UnlockBits(bmpData);
-            bmp.Save(name + ".png", ImageFormat.Png);
+            using var imagePng = SKImage.FromBitmap(bitmap);
+            using var data = imagePng.Encode(SKEncodedImageFormat.Png, 100);
+            using var filestream = File.OpenWrite($"{name}.png");
+            data.SaveTo(filestream);
         }
     }
 }
