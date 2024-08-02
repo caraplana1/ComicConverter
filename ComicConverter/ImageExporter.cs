@@ -146,7 +146,7 @@ namespace ComicConverter
         /// Verify if the comic file PDF encrypted
         /// </summary>
         /// <returns>True if it is a valid pdf, false otherwise</returns>
-        static private bool IsValidPDF(string path)
+        private static bool IsValidPDF(string path)
         {
             StreamReader file = new(path);
             var firstLine = file.ReadLine()?.Substring(0, 8);
@@ -160,7 +160,7 @@ namespace ComicConverter
         /// </summary>
         /// <param name="image">Bytes that represent an image.</param>
         /// <param name="name">Name of the stream to save the image.</param>
-        static private void ExportImage(PdfDictionary image, string name)
+        private static void ExportImage(PdfDictionary image, string name)
         {
             string filter = image.Elements.GetName("/Filter");
 
@@ -208,12 +208,34 @@ namespace ComicConverter
             {
                 PdfSharpCore.Pdf.Filters.FlateDecode flate = new PdfSharpCore.Pdf.Filters.FlateDecode();
                 decodedBytes = flate.Decode(image.Stream.Value, image);
-            }
+            } 
+            
+            int bitsPerComponent = decodedBytes.Length * 8 / (width * height);
+                
 
-            SKBitmap bitmap = new SKBitmap(width, height, true);
+            SKColorType colorType = bitsPerComponent switch
+            {
+                1 => SKColorType.Alpha8,
+                8 => SKColorType.Gray8,
+                16 => SKColorType.Rgb565,
+                24 => SKColorType.Rgb888x,
+                32 => SKColorType.Rgba8888,
+                _ => throw new Exception("Unknown Pixel format " + bitsPerComponent),
+            };
+
+            SKBitmap bitmap = new SKBitmap(width, height, colorType, bitsPerComponent <= 24 ? SKAlphaType.Opaque : SKAlphaType.Premul);
             var pixels = bitmap.GetPixels();
 
-            Marshal.Copy(decodedBytes, 0, pixels, decodedBytes.Length);
+            // ReSharper disable once PossibleLossOfFraction
+            // the loss of fraction is not possible due to bitsPerComponent is multiple of 8.
+            int length = (int)Math.Ceiling((decimal)width * (bitsPerComponent / 8));
+
+            for (int i = 0; i < height; i++)
+            {
+                var offset = i * length;
+                Int64 scanOffset = i * bitmap.RowBytes;
+                Marshal.Copy(decodedBytes, offset, new IntPtr(bitmap.GetAddress(0, 0).ToInt64() + scanOffset), length);
+            }
 
             using var imagePng = SKImage.FromBitmap(bitmap);
             using var data = imagePng.Encode(SKEncodedImageFormat.Png, 100);
