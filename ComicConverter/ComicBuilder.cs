@@ -62,18 +62,15 @@ namespace ComicConverter
 
             PdfDocument document = new();
             document.Info.Title = fileName.Replace('\\', '/').Split('/').Last();
-            PdfPage page;
-            XGraphics graphics;
-            XImage imageFile;
 
             foreach (var image in imagesPaths)
             {
-                imageFile = XImage.FromFile(image);
+                var imageFile = XImage.FromFile(image);
 
-                page = document.AddPage();
+                var page = document.AddPage();
                 page.MediaBox = new PdfRectangle(new XPoint(0, 0), (XPoint)imageFile.Size);
 
-                graphics = XGraphics.FromPdfPage(page);
+                var graphics = XGraphics.FromPdfPage(page);
                 graphics.DrawImage(imageFile, 0, 0);
             }
 
@@ -94,11 +91,10 @@ namespace ComicConverter
                 throw new IOException("There is no file to add");
 
             filesPaths = filesPaths.Where(f => File.Exists(f)).ToArray();
-            FileInfo fileInfo;
 
             foreach (var image in filesPaths)
             {
-                fileInfo = new(image);
+                FileInfo fileInfo = new(image);
                 File.Copy(fileInfo.FullName, $"{dirName}/{fileInfo.Name}", true);
             }
 

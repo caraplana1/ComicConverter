@@ -10,7 +10,7 @@ using PdfSharpCore.Pdf.Advanced;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
-using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace ComicConverter
 {
@@ -116,7 +116,7 @@ namespace ComicConverter
             if (!File.Exists(filePath))
                 throw new FileNotFoundException();
 
-            if (!IsValidPDF(filePath) || outputDir?.Length == 0)
+            if (!IsValidPdf(filePath) || outputDir?.Length == 0 || outputDir == null)
                 throw new FormatException();
 
             DirectoryInfo dir = Directory.CreateDirectory(outputDir);
@@ -146,7 +146,7 @@ namespace ComicConverter
         /// Verify if the comic file PDF encrypted
         /// </summary>
         /// <returns>True if it is a valid pdf, false otherwise</returns>
-        private static bool IsValidPDF(string path)
+        private static bool IsValidPdf(string path)
         {
             StreamReader file = new(path);
             var firstLine = file.ReadLine()?.Substring(0, 8);
@@ -208,10 +208,9 @@ namespace ComicConverter
             {
                 PdfSharpCore.Pdf.Filters.FlateDecode flate = new PdfSharpCore.Pdf.Filters.FlateDecode();
                 decodedBytes = flate.Decode(image.Stream.Value, image);
-            } 
-            
+            }
+
             int bitsPerComponent = decodedBytes.Length * 8 / (width * height);
-                
 
             SKColorType colorType = bitsPerComponent switch
             {
@@ -223,19 +222,51 @@ namespace ComicConverter
                 _ => throw new Exception("Unknown Pixel format " + bitsPerComponent),
             };
 
-            SKBitmap bitmap = new SKBitmap(width, height, colorType, bitsPerComponent <= 24 ? SKAlphaType.Opaque : SKAlphaType.Premul);
-            var pixels = bitmap.GetPixels();
+            SKBitmap bitmap = new SKBitmap(width, height, colorType, 
+                    bitsPerComponent <= 24 ? SKAlphaType.Opaque : SKAlphaType.Premul);
 
-            // ReSharper disable once PossibleLossOfFraction
-            // the loss of fraction is not possible due to bitsPerComponent is multiple of 8.
-            int length = (int)Math.Ceiling((decimal)width * (bitsPerComponent / 8));
+            List<SKColor> colors = new List<SKColor>();
 
-            for (int i = 0; i < height; i++)
+            switch (bitsPerComponent)
             {
-                var offset = i * length;
-                Int64 scanOffset = i * bitmap.RowBytes;
-                Marshal.Copy(decodedBytes, offset, new IntPtr(bitmap.GetAddress(0, 0).ToInt64() + scanOffset), length);
+                case 1:
+                    throw new NotImplementedException("1-bit color png not supported");
+                case 8:
+                    throw new NotImplementedException("8-bit color png not supported");
+                case 16:
+                    throw new NotImplementedException("16-bit color png not supported");
+                case 24:
+                {
+                    for (int i = 0; i < height * width; i++)
+                    {
+                        SKColor color = new SKColor(
+                            decodedBytes[i * 3],
+                            decodedBytes[i * 3 + 1], 
+                            decodedBytes[i * 3 + 2]
+                        );
+                        colors.Add(color);
+                    }
+
+                    break;
+                }
+                default:
+                {
+                    for (int i = 0; i < height * width; i++)
+                    {
+                        SKColor color = new SKColor(
+                            decodedBytes[i * 4], 
+                            decodedBytes[i * 4 + 1],
+                            decodedBytes[i * 4 + 2],
+                            decodedBytes[i * 4 + 3] 
+                        );
+                        colors.Add(color);
+                    }
+
+                    break;
+                }
             }
+
+            bitmap.Pixels = colors.ToArray();
 
             using var imagePng = SKImage.FromBitmap(bitmap);
             using var data = imagePng.Encode(SKEncodedImageFormat.Png, 100);
