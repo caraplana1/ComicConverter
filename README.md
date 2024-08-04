@@ -1,23 +1,23 @@
 # ComicConverter
 
-A multi-plataform .NET library written in Net standard 2.0 for comic formating.
+A multi-platform .NET library written in Net standard 2.0 for comic formating.
 
-## Suported Formats
+## Supported Formats
 
 These are the comic formats that we currently support.
 
-| Format | Extract Images |   Create Comic   |
-| :----: | :------------: | :--------------: |
-|  CBR  |      ✔️      |        ❌        |
-|  CBZ  |      ✔️      |       ✔️       |
-|  CBT  |      ✔️      |       ✔️       |
-|  PDF  | :heavy_check_mark: | :heavy_check_mark: |
+| Format |   Extract Images   |    Create Comic    |
+|:------:|:------------------:|:------------------:|
+|  CBR   |         ✔️         |         ❌          |
+|  CBZ   |         ✔️         |         ✔️         |
+|  CBT   |         ✔️         |         ✔️         |
+|  PDF   | :heavy_check_mark: | :heavy_check_mark: |
 
-We can't convert to CBR files due to RAR compression algorithm lincense.
+We can't convert to CBR files due to RAR compression algorithm license.
 
 ## Samples
 
-For start using the library just paste `using ComicConverter;` in your C# file and follow the next examples depending of what you want.\
+For start using the library just paste `using ComicConverter;` in your C# file and follow the next examples depending on what you want.\
 - **Note**:  
 **The final file result will append the file extension to the given name**
 
@@ -44,10 +44,10 @@ pdf.Convert("MyCbzComic", ComicFormat.CBZ);
 ```C#
 string[] imagesPaths = {"Image1.png", "Folder/Image2.png"};
 
-ComicBuilder.CreateCBZ(imagesPaths, "comicName");
+ComicBuilder.CreateCbz(imagesPaths, "comicName");
 ```
 
-- **Extract CBR's content to a folder.**
+- **Extract Cbr content to a folder.**
 
 ```C#
 string folder = "MyFolder";

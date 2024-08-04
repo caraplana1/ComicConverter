@@ -32,10 +32,10 @@ List of class.
 
 ### Methods
 
-* `CreateCBZ(string[] imagesPaths, string fileName)` <br/>
+* `CreateCbz(string[] imagesPaths, string fileName)` <br/>
   Creates zip file but with cbz extension
 
-* `CreateCBT(string[] imagesPaths, string fileName)` <br/>
+* `CreateCbt(string[] imagesPaths, string fileName)` <br/>
   Creates Tar file but with cbt extension
 
 * `CreatePdf(string[] imagesPaths, string fileName)` <br/>
@@ -62,7 +62,7 @@ Extract Jpeg from pdf file to a directory.
 
 Enum for all comic format available.
 
-`CBR`\
-`CBZ`\
-`CBT`\
-`PDF`
+`Cbr`\
+`Cbz`\
+`Cbt`\
+`Pdf`
