@@ -1,55 +1,63 @@
-using System.IO;
 using System;
+using System.IO;
 using System.Linq;
 using ComicConverter;
+using Test;
 using Xunit;
 
-namespace Test.ImageCollector
+namespace Tests.ImageCollectors
 {
     public class CbtFiles
     {
         [Fact]
         public void ExtractImages()
         {
-            ImageExtractors.UnTar(Samples.CBTPATH, "CbtTest1");
-            Assert.Equal(3, Directory.GetFiles("CbtTest1").Length);
-            Directory.Delete("CbtTest1", true);
+            string path = "CbtExport1";
+
+            ImageExporter.UnTar(Samples.Cbtpath, path);
+            int files = Directory.GetFiles(path).Length;
+            Directory.Delete(path, true);
+            
+            Assert.Equal(3, files);
+
         }
 
         [Fact]
         public void FilesIsNotTar()
         {
-            Assert.Throws<FormatException>(() => ImageExtractors.UnTar(Samples.CBRPATH));
+            Assert.Throws<FormatException>(() => ImageExporter.UnTar(Samples.Cbrpath));
         }
 
         [Fact]
         public void FileNotFound()
         {
-            Assert.Throws<FileNotFoundException>(() => ImageExtractors.UnTar(Samples.FAKEFILE));
+            Assert.Throws<FileNotFoundException>(() => ImageExporter.UnTar(Samples.Fakefile));
         }
 
         [Fact]
         public void EmptyAttributeDirectory()
         {
-            ImageExtractors.UnTar(Samples.CBTPATH, "cbtTest2");
-            ImageExtractors.UnTar(Samples.CBTPATH);
+            string path = "CbtExport2";
 
-            var files = Directory.GetFiles("cbtTest2").ToList();
+            ImageExporter.UnTar(Samples.Cbtpath, path);
+            ImageExporter.UnTar(Samples.Cbtpath);
+
+            var files = Directory.GetFiles(path).ToList();
             var filesCurrentDir = Directory.GetFiles(".").ToList();
 
             foreach (var file in files)
             {
-                Assert.Contains(file.Replace("cbtTest2", "."), filesCurrentDir);
-                File.Delete(file.Replace("cbtTest2", "."));
+                Assert.Contains(file.Replace(path, "."), filesCurrentDir);
+                File.Delete(file.Replace(path, "."));
             }
 
-            Directory.Delete("cbtTest2", true);
+            Directory.Delete(path, true);
         }
 
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<FormatException>(() => ImageExtractors.UnTar(Samples.CBTPATH, ""));
+            Assert.Throws<FormatException>(() => ImageExporter.UnTar(Samples.Cbtpath, ""));
         }
     }
 }

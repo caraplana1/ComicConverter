@@ -1,24 +1,25 @@
 # ComicConverter
 
-A multi-plataform .NET library written in Net standard 2.0 for comic file formating.
+A multi-platform .NET library written in Net standard 2.0 for comic formating.
 
-## Suported Formats
+## Supported Formats
 
-These are the format that we currently support.
+These are the comic formats that we currently support.
 
-| Format | Extract Images |   Create Comic   |
-| :----: | :------------: | :--------------: |
-|  CBR  |      ✔️      |        ❌        |
-|  CBZ  |      ✔️      |       ✔️       |
-|  CBT  |      ✔️      |       ✔️       |
-|  CB7  |      ✔️      |        ❌        |
-|  PDF  | :heavy_check_mark:(only jpeg) | :heavy_check_mark: |
+| Format |   Extract Images   |    Create Comic    |
+|:------:|:------------------:|:------------------:|
+|  CBR   |         ✔️         |         ❌          |
+|  CBZ   |         ✔️         |         ✔️         |
+|  CBT   |         ✔️         |         ✔️         |
+|  PDF   | :heavy_check_mark: | :heavy_check_mark: |
 
-We can't make cbr files due to RAR compression algorithm lincense.
+We can't convert to CBR files due to RAR compression algorithm license.
 
 ## Samples
 
-For start using the library just compy and paste `using ComicConverter;` and follow the next examples depending of your case.
+For start using the library just paste `using ComicConverter;` in your C# file and follow the next examples depending on what you want.\
+- **Note**:  
+**The final file result will append the file extension to the given name**
 
 - **Convert CBR to PDF.**
 
@@ -26,7 +27,7 @@ For start using the library just compy and paste `using ComicConverter;` and fol
 string comicPath = "./MyComic.cbr";
 
 Comic comic = new Comic(comicPath);
-comic.Convert("new Name", ComicFormat.PDF);
+comic.Convert("new Name", ComicFormat.Pdf);
 ```
 
 - **Convert PDF to CBZ**
@@ -35,7 +36,7 @@ comic.Convert("new Name", ComicFormat.PDF);
 string pdfPath = "Comic.pdf";
 
 Comic pdf = new Comic(pdfPath);
-pdf.Convert("MyCbzComic", ComicFormat.CBZ);
+pdf.Convert("MyCbzComic", ComicFormat.Cbz);
 ```
 
 - **Create a CBZ comic from images paths.**
@@ -43,16 +44,16 @@ pdf.Convert("MyCbzComic", ComicFormat.CBZ);
 ```C#
 string[] imagesPaths = {"Image1.png", "Folder/Image2.png"};
 
-ComicBuilder.CreateCBZ(imagesPaths, "comicName");
+ComicBuilder.CreateCbz(imagesPaths, "comicName");
 ```
 
-- **Extract CBR's content to a folder.**
+- **Extract Cbr content to a folder.**
 
 ```C#
 string folder = "MyFolder";
 string comic = "MyComic.cbr";
 
-ImageExtractors.UnRar(comic, folder);
+ImageExporter.UnRar(comic, folder);
 ```
 
 ## Documentation

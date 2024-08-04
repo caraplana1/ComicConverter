@@ -15,9 +15,9 @@ namespace ComicConverter
         /// <summary>
         /// Creates zip file but with cbz extension
         /// </summary>
-        /// <param name="imagesPath">Arrays of paths to  the images to include in the file</param>
-        /// <param name="fileName">Name of the final document. Dont need to add the extension name</param>
-        public static void CreateCBZ(string[] imagesPaths, string fileName)
+        /// <param name="imagesPaths">Arrays of paths to  the images to include in the file</param>
+        /// <param name="fileName">Name of the final document. Don't need to add the extension name</param>
+        public static void CreateCbz(string[] imagesPaths, string fileName)
         {
             DirectoryInfo dir = CreateHiddenDir(imagesPaths, fileName.Replace('\\', '/').Split('/').Last() + "CBZ");
 
@@ -34,8 +34,8 @@ namespace ComicConverter
         /// Creates tar file but with cbt extension
         /// </summary>
         /// <param name="imagesPaths">Arrays of paths to  the images to include in the file</param>
-        /// <param name="fileName">Name of the final document. Dont need to add the extension name</param>
-        public static void CreateCBT(string[] imagesPaths, string fileName)
+        /// <param name="fileName">Name of the final document. Don't need to add the extension name</param>
+        public static void CreateCbt(string[] imagesPaths, string fileName)
         {
             DirectoryInfo dir = CreateHiddenDir(imagesPaths, fileName.Replace('\\', '/').Split('/').Last() + "CBT");
 
@@ -49,31 +49,31 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Creates Pdf Files with a image per page.
+        /// Creates Pdf Files with an image per page.
         /// </summary>
         /// <param name="imagesPaths">Arrays of paths to  the images to include in the file</param>
-        /// <param name="fileName">Name of the final document. Dont need to add the extension name</param>
+        /// <param name="fileName">Name of the final document. Don't need to add the extension name</param>
         public static void CreatePdf(string[] imagesPaths, string fileName)
         {
-            imagesPaths = imagesPaths.Where(f => File.Exists(f)).ToArray();
+            imagesPaths = imagesPaths.Where(File.Exists).ToArray();
             imagesPaths = imagesPaths.Where(f => f.EndsWith(".PNG", StringComparison.OrdinalIgnoreCase)
                                             || f.EndsWith(".JPEG", StringComparison.OrdinalIgnoreCase)
                                             || f.EndsWith(".JPG", StringComparison.OrdinalIgnoreCase)).ToArray();
 
+            if (imagesPaths.Length is 0)
+                throw new IOException();
+            
             PdfDocument document = new();
             document.Info.Title = fileName.Replace('\\', '/').Split('/').Last();
-            PdfPage page;
-            XGraphics graphics;
-            XImage imageFile;
 
             foreach (var image in imagesPaths)
             {
-                imageFile = XImage.FromFile(image);
+                var imageFile = XImage.FromFile(image);
 
-                page = document.AddPage();
+                var page = document.AddPage();
                 page.MediaBox = new PdfRectangle(new XPoint(0, 0), (XPoint)imageFile.Size);
 
-                graphics = XGraphics.FromPdfPage(page);
+                var graphics = XGraphics.FromPdfPage(page);
                 graphics.DrawImage(imageFile, 0, 0);
             }
 
@@ -81,10 +81,11 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Simple funtion to create a hidden directory and copy all files specificataed.
+        /// Create a hidden directory and copy all files specified.
         /// </summary>
         /// <param name="filesPaths">Files wanted to copy on the directory</param>
-        /// <returns>Directory info</returns>
+        /// <param name="dirName">Name of the directory to create.</param>
+        /// <returns>Directory info class</returns>
         private static DirectoryInfo CreateHiddenDir(string[] filesPaths, string dirName)
         {
             DirectoryInfo dir = Directory.CreateDirectory(dirName);
@@ -93,12 +94,11 @@ namespace ComicConverter
             if (filesPaths.All(f => !File.Exists(f)))
                 throw new IOException("There is no file to add");
 
-            filesPaths = filesPaths.Where(f => File.Exists(f)).ToArray();
-            FileInfo fileInfo;
+            filesPaths = filesPaths.Where(File.Exists).ToArray();
 
             foreach (var image in filesPaths)
             {
-                fileInfo = new(image);
+                FileInfo fileInfo = new(image);
                 File.Copy(fileInfo.FullName, $"{dirName}/{fileInfo.Name}", true);
             }
 

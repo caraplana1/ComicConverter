@@ -1,31 +1,33 @@
+using Test;
 using Xunit;
+using System;
 using System.IO;
 using ComicConverter;
 
-namespace Test.ComicCreators
+namespace Tests.ComicCreators
 {
     public class CbtFiles
     {
-        private const string cbtPath = "CreatedCbtFile";
-
+        private const string CbtPath = "CreatedCbtFileTest";
+        
         [Fact]
         public void CreateCbt()
         {
-            string[] files = Directory.GetFiles(Samples.IMAGESDIR);
+            string[] files = Directory.GetFiles(Samples.Imagesdir);
 
-            ComicBuilder.CreateCBT(files, cbtPath);
+            ComicBuilder.CreateCbt(files, CbtPath);
 
-            Assert.True(File.Exists($"{cbtPath}.cbt"));
+            Assert.True(File.Exists($"{CbtPath}.cbt"));
 
-            File.Delete($"{cbtPath}.cbt");
+            File.Delete($"{CbtPath}.cbt");
         }
 
         [Fact]
         public void ImagesNotFound()
         {
-            string[] fakeFiles = ["fakefile1.jpg", "fakefile2.jpg", "fakefile3.jpg"];
+            string[] files = ["fakefile.jpg", "fakefile1.jpg", "fakefile2.jpg"];
 
-            Assert.Throws<IOException>(() => ComicBuilder.CreateCBT(fakeFiles, cbtPath));
+            Assert.Throws<IOException>(() => ComicBuilder.CreateCbt(files, CbtPath));
         }
     }
 }

@@ -1,50 +1,51 @@
+using Test;
 using Xunit;
 using System.IO;
 using ComicConverter;
 using System.Collections.Generic;
 
-namespace Test.ImageCollector
+namespace Tests.ImageCollectors
 {
     public class CbzFiles
     {
         [Fact]
         public void UnZip()
         {
-            const string path = "ZipTestDir";
+            const string path = "ZipExportDir";
 
-            ImageExtractors.UnZip(Samples.CBZPATH, path); // Descompress File.
+            ImageExporter.UnZip(Samples.Cbzpath, path); // Descompress File.
 
             Assert.True(Directory.Exists(path)); // Makes sure the directory is created.
 
-            string[] filesExtracted = Directory.GetFiles(path);
+            int files = Directory.GetFiles(path).Length;
             Directory.Delete(path, true);
 
-            Assert.True(filesExtracted.Length > 0); // Makes sure that the directory isnot empty.
+            Assert.Equal(3, files);
         }
 
         [Fact]
         public void FileIsNotZip()
         {
-            Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(Samples.TESTPATH));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnZip(Samples.Testpath));
         }
 
         [Fact]
         public void FileNotFound()
         {
-            Assert.Throws<FileNotFoundException>(() => ImageExtractors.UnZip("FakeFile.txt"));
+            Assert.Throws<FileNotFoundException>(() => ImageExporter.UnZip("FakeFile.txt"));
         }
 
         [Fact]
         public void EmptyAttributeDirectory()
         {
-            const string folderToCompare = "TestFolderToCompare";
+            const string folderToCompare = "TestCbzFolderToCompare";
 
             // Extract the same file in the current directory and in the output directoty
-            ImageExtractors.UnZip(Samples.CBZPATH);
-            ImageExtractors.UnZip(Samples.CBZPATH, folderToCompare);
+            ImageExporter.UnZip(Samples.Cbzpath);
+            List<string> filesExtracted = [.. Directory.GetFiles(".")];
+            ImageExporter.UnZip(Samples.Cbzpath, folderToCompare);
 
             // Get a list of all files in current directory
-            List<string> filesExtracted = [.. Directory.GetFiles(".")];
 
             foreach (var file in Directory.GetFiles(folderToCompare))
             {
@@ -59,7 +60,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<System.FormatException>(() => ImageExtractors.UnZip(Samples.CBZPATH, ""));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnZip(Samples.Cbzpath, ""));
         }
     }
 }

@@ -1,9 +1,9 @@
 using System;
 using System.IO;
+using ComicConverter.Enums;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Archives.Tar;
-using SharpCompress.Archives.SevenZip;
 
 namespace ComicConverter
 {
@@ -18,13 +18,13 @@ namespace ComicConverter
         ///	Comic File direction.
         /// </summary>
         /// <value>String</value>
-        public string Path { get; }
+        private string Path { get; }
 
         /// <summary>
-        /// The given comic's format enum.
+        /// Comic's format enum.
         /// </summary>
         /// <value>Enum</value>
-        public ComicFormat Format { get; }
+        private ComicFormat Format { get; }
 
         #endregion
 
@@ -43,22 +43,6 @@ namespace ComicConverter
         }
 
         /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="comicPath">Direction of the comic file.</param>
-        /// <param name="format">Specify the format</param>
-        /// <exception cref="FileNotFoundException"></exception>
-        public Comic(string comicPath, ComicFormat format)
-        {
-            if (!File.Exists(comicPath))
-                throw new FileNotFoundException();
-            else
-                Path = comicPath;
-
-            Format = format;
-        }
-
-        /// <summary>
         /// Convert the file to the given format.
         /// </summary>
         /// <param name="outputPath">File name to be converted.(without extension)</param>
@@ -69,15 +53,15 @@ namespace ComicConverter
             if (!IsValidOutputFormat(format))
                 throw new FormatException($"Can't convert comic to {format}");
 
-            DirectoryInfo dir = Directory.CreateDirectory(".ConvertedImagesHiddenDir");
+            var dir = Directory.CreateDirectory(".ConvertedImagesHiddenDir");
             dir.Attributes = FileAttributes.Hidden | FileAttributes.Directory;
 
-            var ExtractImages = FindExtractorImageAction(Format);
-            var BuildComic = FindComicBuilderAction(format);
+            var extractImages = FindExtractorImageAction(Format);
+            var buildComic = FindComicBuilderAction(format);
 
-            ExtractImages(Path, dir.Name);
+            extractImages(Path, dir.Name);
 
-            BuildComic(Directory.GetFiles(dir.Name), outputPath);
+            buildComic(Directory.GetFiles(dir.Name), outputPath);
 
             dir.Delete(true);
         }
@@ -89,15 +73,13 @@ namespace ComicConverter
         private ComicFormat FindComicFormat()
         {
             if (RarArchive.IsRarFile(Path))
-                return ComicFormat.CBR;
+                return ComicFormat.Cbr;
             if (ZipArchive.IsZipFile(Path))
-                return ComicFormat.CBZ;
+                return ComicFormat.Cbz;
             if (TarArchive.IsTarFile(Path))
-                return ComicFormat.CBT;
-            if (SevenZipArchive.IsSevenZipFile(Path))
-                return ComicFormat.CB7;
-            if (IsValidPDF())
-                return ComicFormat.PDF;
+                return ComicFormat.Cbt;
+            if (IsValidPdf())
+                return ComicFormat.Pdf;
 
             throw new FormatException("File is not in proper format");
         }
@@ -106,36 +88,26 @@ namespace ComicConverter
         /// Verify if the comic file PDF encrypted
         /// </summary>
         /// <returns>True if it is a valid pdf, false otherwise</returns>
-        private bool IsValidPDF()
+        private bool IsValidPdf()
         {
             StreamReader file = new(Path);
-            string firstLine = file.ReadLine().Substring(0, 7);
+            var firstLine = file.ReadLine()?.Substring(0, 8);
+            file.Close();
 
-            if (firstLine == "%PDF-1.")
-                return true;
-            else
-                return false;
+            return firstLine is "%PDF-1.4" or "%PDF-1.5";
         }
 
         /// <summary>
-        /// Verify is the output format to convert is suported.
+        /// Verify is the output format to convert is supported.
         /// </summary>
         /// <param name="format">Format enum to compare</param>
         /// <returns>True if it's valid false otherwise.</returns>
-        private bool IsValidOutputFormat(ComicFormat format)
-        {
-            if (format == ComicFormat.CBZ)
-                return true;
-            if (format == ComicFormat.CBT)
-                return true;
-            if (format == ComicFormat.PDF)
-                return true;
-
-            return false;
-        }
+        private static bool IsValidOutputFormat(ComicFormat format)
+            => format is ComicFormat.Cbz or ComicFormat.Cbt or ComicFormat.Pdf;
+        
 
         /// <summary>
-        /// Find the correct method to extract images from the supported file given an format.
+        /// Find the correct method to extract images from the supported file given a format.
         /// </summary>
         /// <param name="format">The format of the file to extract images.</param>
         /// <returns>The correct method to extract image to the correct format file.</returns>
@@ -143,17 +115,16 @@ namespace ComicConverter
         {
             return format switch
             {
-                ComicFormat.CBR => ImageExtractors.UnRar,
-                ComicFormat.CBZ => ImageExtractors.UnZip,
-                ComicFormat.CBT => ImageExtractors.UnTar,
-                ComicFormat.CB7 => ImageExtractors.UnSevenZip,
-                ComicFormat.PDF => ImageExtractors.ExtractPdfImages,
+                ComicFormat.Cbr => ImageExporter.UnRar,
+                ComicFormat.Cbz => ImageExporter.UnZip,
+                ComicFormat.Cbt => ImageExporter.UnTar,
+                ComicFormat.Pdf => ImageExporter.ExportPdfImages,
                 _ => throw new FormatException(),
             };
         }
 
         /// <summary>
-        /// Find the correct Method to created a comic in the given supproted format.
+        /// Find the correct Method to create a comic in the given supported format.
         /// </summary>
         /// <param name="format">The end format of the file to create</param>
         /// <returns>The Method to transform the images to a supported comic file.</returns>
@@ -161,9 +132,9 @@ namespace ComicConverter
         {
             return format switch
             {
-                ComicFormat.CBZ => ComicBuilder.CreateCBZ,
-                ComicFormat.CBT => ComicBuilder.CreateCBT,
-                ComicFormat.PDF => ComicBuilder.CreatePdf,
+                ComicFormat.Cbz => ComicBuilder.CreateCbz,
+                ComicFormat.Cbt => ComicBuilder.CreateCbt,
+                ComicFormat.Pdf => ComicBuilder.CreatePdf,
                 _ => throw new FormatException(),
             };
         }

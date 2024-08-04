@@ -1,31 +1,42 @@
+using Test;
 using Xunit;
 using System;
 using System.IO;
 using ComicConverter;
 
-namespace Test.ComicCreators
+namespace Tests.ComicCreators
 {
     public class PdfFiles
     {
+        private const string Path = "pdftestBuild";
+
         [Fact]
         public void CreatePdf()
         {
-            var images = Directory.GetFiles(Samples.IMAGESDIR);
+            var images = Directory.GetFiles(Samples.Imagesdir);
 
-            ComicBuilder.CreatePdf(images, "pdftest");
+            ComicBuilder.CreatePdf(images, Path);
 
-            Assert.True(File.Exists("pdftest.pdf"));
+            Assert.True(File.Exists($"{Path}.pdf"));
 
-            File.Delete("pdftest.pdf");
+            File.Delete($"{Path}.pdf");
         }
 
         [Fact]
         public void FilesAreNotImages()
         {
-            var images = Directory.GetFiles(Samples.IMAGESDIR);
-            images = [.. images, Samples.FAKEIMAGE];
+            var images = Directory.GetFiles(Samples.Imagesdir);
+            images = [.. images, Samples.Fakeimage];
 
-            Assert.ThrowsAny<Exception>(() => ComicBuilder.CreatePdf(images, "pdftest"));
+            Assert.ThrowsAny<Exception>(() => ComicBuilder.CreatePdf(images, Path));
+        }
+        
+        [Fact]
+        public void ImagesNotFound()
+        {
+            string[] files = ["Fakename", "fakename2", "fakename3"];
+
+            Assert.Throws<IOException>(() => ComicBuilder.CreatePdf(files, Path));
         }
     }
 }
