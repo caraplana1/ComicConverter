@@ -1,13 +1,15 @@
+using Test;
 using Xunit;
+using System;
 using System.IO;
 using ComicConverter;
 
-namespace Test.ComicCreators
+namespace Tests.ComicCreators
 {
     public class CbtFiles
     {
         private const string CbtPath = "CreatedCbtFileTest";
-
+        
         [Fact]
         public void CreateCbt()
         {
@@ -23,9 +25,9 @@ namespace Test.ComicCreators
         [Fact]
         public void ImagesNotFound()
         {
-            string[] fakeFiles = ["fakefile1.jpg", "fakefile2.jpg", "fakefile3.jpg"];
+            string[] files = ["fakefile.jpg", "fakefile1.jpg", "fakefile2.jpg"];
 
-            Assert.Throws<IOException>(() => ComicBuilder.CreateCbt(fakeFiles, CbtPath));
+            Assert.Throws<IOException>(() => ComicBuilder.CreateCbt(files, CbtPath));
         }
     }
 }

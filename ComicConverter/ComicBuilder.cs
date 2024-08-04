@@ -60,6 +60,9 @@ namespace ComicConverter
                                             || f.EndsWith(".JPEG", StringComparison.OrdinalIgnoreCase)
                                             || f.EndsWith(".JPG", StringComparison.OrdinalIgnoreCase)).ToArray();
 
+            if (imagesPaths.Length is 0)
+                throw new IOException();
+            
             PdfDocument document = new();
             document.Info.Title = fileName.Replace('\\', '/').Split('/').Last();
 

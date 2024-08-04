@@ -1,9 +1,10 @@
+using Test;
 using Xunit;
 using System.IO;
 using ComicConverter;
 using System.Collections.Generic;
 
-namespace Test.ImageCollector
+namespace Tests.ImageCollectors
 {
     public class CbzFiles
     {

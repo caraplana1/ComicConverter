@@ -1,9 +1,10 @@
+using Test;
 using Xunit;
 using System.IO;
 using ComicConverter;
 using System.Collections.Generic;
 
-namespace Test.ImageCollector
+namespace Tests.ImageCollectors
 {
     public class CbrFiles
     {
@@ -12,11 +13,10 @@ namespace Test.ImageCollector
         public void Unrar()
         {
             string outputDir = "CbrTest1";
-            int extractedFiles;
 
             ImageExporter.UnRar(Samples.Cbrpath, outputDir);
 
-            extractedFiles = Directory.GetFiles(outputDir).Length;
+            var extractedFiles = Directory.GetFiles(outputDir).Length;
             Directory.Delete(outputDir, true);
             Assert.Equal(3, extractedFiles);
         }

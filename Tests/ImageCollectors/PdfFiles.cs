@@ -1,30 +1,36 @@
+using Test;
+using Xunit;
 using System;
 using System.IO;
 using ComicConverter;
-using Xunit;
 
-namespace Test.ImageCollector
+namespace Tests.ImageCollectors
 {
     public class PdfFiles
     {
         [Fact]
-        public void ExtractImagesPdf()
+        public void ExtractImagesJpgPdf()
         {
             string pdfDir = "PdfExtractedImages";
-            string pdfPngDir = "PdfPNGExtractedImages";
-
             ImageExporter.ExportPdfImages(Samples.Pdfpath, pdfDir);
-            ImageExporter.ExportPdfImages(Samples.Pdfpngpath, pdfPngDir);
-
             var files = Directory.GetFiles(pdfDir).Length;
-            var filesPng = Directory.GetFiles(pdfPngDir).Length;
 
             Directory.Delete(pdfDir, true);
-            Directory.Delete(pdfPngDir, true);
 
             Assert.Equal(3, files);
-            Assert.Equal(3, filesPng);
 
+        }
+
+        [Fact]
+        public void ExtractImagesPngPdf()
+        {
+            string pdfPngDir = "PdfPNGExtractedImages";
+            ImageExporter.ExportPdfImages(Samples.Pdfpngpath, pdfPngDir);
+            var filesPng = Directory.GetFiles(pdfPngDir).Length;
+            
+            Directory.Delete(pdfPngDir, true);
+            
+            Assert.Equal(3, filesPng);
         }
 
         [Fact]

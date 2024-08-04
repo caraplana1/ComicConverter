@@ -1,8 +1,10 @@
+using Test;
 using Xunit;
+using System;
 using System.IO;
 using ComicConverter;
 
-namespace Test.ComicCreators
+namespace Tests.ComicCreators
 {
     public class CbzFiles
     {

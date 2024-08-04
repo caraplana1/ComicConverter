@@ -1,9 +1,10 @@
+using Test;
 using Xunit;
 using System;
 using System.IO;
 using ComicConverter;
 
-namespace Test.ComicCreators
+namespace Tests.ComicCreators
 {
     public class PdfFiles
     {
@@ -28,6 +29,14 @@ namespace Test.ComicCreators
             images = [.. images, Samples.Fakeimage];
 
             Assert.ThrowsAny<Exception>(() => ComicBuilder.CreatePdf(images, Path));
+        }
+        
+        [Fact]
+        public void ImagesNotFound()
+        {
+            string[] files = ["Fakename", "fakename2", "fakename3"];
+
+            Assert.Throws<IOException>(() => ComicBuilder.CreatePdf(files, Path));
         }
     }
 }

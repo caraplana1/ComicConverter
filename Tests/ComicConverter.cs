@@ -1,10 +1,11 @@
+using Test;
 using Xunit;
 using System;
 using System.IO;
 using ComicConverter;
 using ComicConverter.Enums;
 
-namespace Test
+namespace Tests
 {
     public class ComicConverter
     {
@@ -70,7 +71,6 @@ namespace Test
         public void InInvalidFormat()
         {
             Comic comic;
-
             Assert.Throws<FormatException>(() => comic = new(Samples.Testpath));
         }
     }

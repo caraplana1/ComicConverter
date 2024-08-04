@@ -1,10 +1,11 @@
-using System.IO;
 using System;
+using System.IO;
 using System.Linq;
 using ComicConverter;
+using Test;
 using Xunit;
 
-namespace Test.ImageCollector
+namespace Tests.ImageCollectors
 {
     public class CbtFiles
     {
