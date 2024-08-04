@@ -1,61 +1,64 @@
+using Test;
 using Xunit;
 using System.IO;
 using ComicConverter;
 using System.Collections.Generic;
 
-namespace Test.ImageCollector
+namespace Tests.ImageCollectors
 {
     public class CbrFiles
     {
-        private const string outputDir = "ImagesFromRarDir";
 
         [Fact]
         public void Unrar()
         {
-            string[] extractedFiles;
+            string outputDir = "CbrTest1";
 
-            ImageExtractors.UnRar(Samples.CBRPATH, outputDir);
+            ImageExporter.UnRar(Samples.Cbrpath, outputDir);
 
-            extractedFiles = Directory.GetFiles(outputDir);
+            var extractedFiles = Directory.GetFiles(outputDir).Length;
             Directory.Delete(outputDir, true);
-            Assert.True(extractedFiles.Length > 0);
+            Assert.Equal(3, extractedFiles);
         }
 
         [Fact]
         public void FileIsNotRar()
         {
-            Assert.Throws<System.FormatException>(() => ImageExtractors.UnRar(Samples.TESTPATH, outputDir));
+            string outputDir = "CbrTest2";
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnRar(Samples.Testpath, outputDir));
         }
 
         [Fact]
         public void FileNotFound()
         {
-            Assert.Throws<FileNotFoundException>(() => ImageExtractors.UnRar(Samples.FAKEFILE, outputDir));
+            string outputDir = "CbrTest3";
+            Assert.Throws<FileNotFoundException>(() => ImageExporter.UnRar(Samples.Fakefile, outputDir));
         }
 
         [Fact]
         public void EmptyAttributeDirectory()
         {
-            ImageExtractors.UnRar(Samples.CBRPATH, "Folder");
-            ImageExtractors.UnRar(Samples.CBRPATH);
+            string outputDir = "CbrTest4";
+            ImageExporter.UnRar(Samples.Cbrpath, outputDir);
+            ImageExporter.UnRar(Samples.Cbrpath);
 
             List<string> filesExtracted = [.. Directory.GetFiles(".")];
 
-            foreach (var file in Directory.GetFiles("Folder"))
+            foreach (var file in Directory.GetFiles(outputDir))
             {
-                if (!filesExtracted.Contains(file.Replace("Folder", ".")))
+                if (!filesExtracted.Contains(file.Replace(outputDir, ".")))
                     Assert.True(false);
                 else
-                    File.Delete(file.Replace("Folder", "."));
+                    File.Delete(file.Replace(outputDir, "."));
             }
 
-            Directory.Delete("Folder", true);
+            Directory.Delete(outputDir, true);
         }
 
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<System.FormatException>(() => ImageExtractors.UnRar(Samples.CBRPATH, ""));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnRar(Samples.Cbrpath, ""));
         }
     }
 }

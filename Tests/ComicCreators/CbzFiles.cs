@@ -1,23 +1,25 @@
+using Test;
 using Xunit;
+using System;
 using System.IO;
 using ComicConverter;
 
-namespace Test.ComicCreators
+namespace Tests.ComicCreators
 {
     public class CbzFiles
     {
-        private const string cbzPath = "CreatedCbzFile";
+        private const string CbzPath = "CreatedCbzFileTest";
 
         [Fact]
         public void CreateCbz()
         {
-            string[] images = Directory.GetFiles(Samples.IMAGESDIR);
+            string[] images = Directory.GetFiles(Samples.Imagesdir);
 
-            ComicBuilder.CreateCBZ(images, cbzPath);
+            ComicBuilder.CreateCbz(images, CbzPath);
 
-            Assert.True(File.Exists($"{cbzPath}.cbz"));
+            Assert.True(File.Exists($"{CbzPath}.cbz"));
 
-            File.Delete($"{cbzPath}.cbz");
+            File.Delete($"{CbzPath}.cbz");
         }
 
         [Fact]
@@ -25,7 +27,7 @@ namespace Test.ComicCreators
         {
             string[] files = ["Fakename", "fakename2", "fakename3"];
 
-            Assert.Throws<IOException>(() => ComicBuilder.CreateCBZ(files, cbzPath));
+            Assert.Throws<IOException>(() => ComicBuilder.CreateCbz(files, CbzPath));
         }
     }
 }

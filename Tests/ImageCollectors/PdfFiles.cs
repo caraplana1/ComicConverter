@@ -1,52 +1,67 @@
+using Test;
+using Xunit;
 using System;
 using System.IO;
 using ComicConverter;
-using Xunit;
 
-namespace Test.ImageCollector
+namespace Tests.ImageCollectors
 {
     public class PdfFiles
     {
         [Fact]
-        public void ExtractImagesPdfJpg()
+        public void ExtractImagesJpgPdf()
         {
-            ImageExtractors.ExtractPdfImages(Samples.PDFPATH, "PdfExtractedImages");
+            string pdfDir = "PdfExtractedImages";
+            ImageExporter.ExportPdfImages(Samples.Pdfpath, pdfDir);
+            var files = Directory.GetFiles(pdfDir).Length;
 
-            var files = Directory.GetFiles("PdfExtractedImages");
+            Directory.Delete(pdfDir, true);
 
-            Assert.Equal(3, files.Length);
+            Assert.Equal(3, files);
 
-            Directory.Delete("PdfExtractedImages", true);
+        }
+
+        [Fact]
+        public void ExtractImagesPngPdf()
+        {
+            string pdfPngDir = "PdfPNGExtractedImages";
+            ImageExporter.ExportPdfImages(Samples.Pdfpngpath, pdfPngDir);
+            var filesPng = Directory.GetFiles(pdfPngDir).Length;
+            
+            Directory.Delete(pdfPngDir, true);
+            
+            Assert.Equal(3, filesPng);
         }
 
         [Fact]
         public void FileIsNotPdf()
         {
-            Assert.Throws<FormatException>(() => ImageExtractors.ExtractPdfImages(Samples.CBRPATH));
+            Assert.Throws<FormatException>(() => ImageExporter.ExportPdfImages(Samples.Cbrpath));
         }
 
         [Fact]
         public void FileNotFound()
         {
-            Assert.Throws<FileNotFoundException>(() => ImageExtractors.ExtractPdfImages("FakeFile.pdf"));
+            Assert.Throws<FileNotFoundException>(() => ImageExporter.ExportPdfImages("FakeFile.pdf"));
         }
 
         [Fact]
         public void EmptyAttrubuteDirectory()
         {
-            ImageExtractors.ExtractPdfImages(Samples.PDFPATH, "PdfExtracted");
+            string pdfExport = "PdfExported";
 
-            var files = Directory.GetFiles("PdfExtracted");
+            ImageExporter.ExportPdfImages(Samples.Pdfpath, pdfExport);
+
+            var files = Directory.GetFiles(pdfExport);
+            Directory.Delete(pdfExport, true);
 
             Assert.Equal(3, files.Length);
-
-            Directory.Delete("PdfExtracted", true);
         }
 
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<FormatException>(() => ImageExtractors.ExtractPdfImages(Samples.PDFPATH, ""));
+            Assert.Throws<FormatException>(() => ImageExporter.ExportPdfImages(Samples.Pdfpath, ""));
         }
     }
 }
