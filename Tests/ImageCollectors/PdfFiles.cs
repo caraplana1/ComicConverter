@@ -13,24 +13,24 @@ namespace Test.ImageCollector
             string pdfDir = "PdfExtractedImages";
             string pdfPngDir = "PdfPNGExtractedImages";
 
-            ImageExporter.ExportPdfImages(Samples.PDFPATH, pdfDir);
-            ImageExporter.ExportPdfImages(Samples.PDFPNGPATH, pdfPngDir);
+            ImageExporter.ExportPdfImages(Samples.Pdfpath, pdfDir);
+            ImageExporter.ExportPdfImages(Samples.Pdfpngpath, pdfPngDir);
 
             var files = Directory.GetFiles(pdfDir).Length;
-            var filesPNG = Directory.GetFiles(pdfPngDir).Length;
+            var filesPng = Directory.GetFiles(pdfPngDir).Length;
 
             Directory.Delete(pdfDir, true);
             Directory.Delete(pdfPngDir, true);
 
             Assert.Equal(3, files);
-            Assert.Equal(3, filesPNG);
+            Assert.Equal(3, filesPng);
 
         }
 
         [Fact]
         public void FileIsNotPdf()
         {
-            Assert.Throws<FormatException>(() => ImageExporter.ExportPdfImages(Samples.CBRPATH));
+            Assert.Throws<FormatException>(() => ImageExporter.ExportPdfImages(Samples.Cbrpath));
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace Test.ImageCollector
         {
             string pdfExport = "PdfExported";
 
-            ImageExporter.ExportPdfImages(Samples.PDFPATH, pdfExport);
+            ImageExporter.ExportPdfImages(Samples.Pdfpath, pdfExport);
 
             var files = Directory.GetFiles(pdfExport);
             Directory.Delete(pdfExport, true);
@@ -55,7 +55,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<FormatException>(() => ImageExporter.ExportPdfImages(Samples.PDFPATH, ""));
+            Assert.Throws<FormatException>(() => ImageExporter.ExportPdfImages(Samples.Pdfpath, ""));
         }
     }
 }

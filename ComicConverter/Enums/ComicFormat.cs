@@ -1,13 +1,13 @@
-namespace ComicConverter
+namespace ComicConverter.Enums
 {
     /// <summary>
     /// Enum listing comic formats
     /// </summary>
     public enum ComicFormat
     {
-        CBR,
-        CBZ,
-        CBT,
-        PDF
+        Cbr,
+        Cbz,
+        Cbt,
+        Pdf
     }
 }

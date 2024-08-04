@@ -14,7 +14,7 @@ namespace Test.ImageCollector
             string outputDir = "CbrTest1";
             int extractedFiles;
 
-            ImageExporter.UnRar(Samples.CBRPATH, outputDir);
+            ImageExporter.UnRar(Samples.Cbrpath, outputDir);
 
             extractedFiles = Directory.GetFiles(outputDir).Length;
             Directory.Delete(outputDir, true);
@@ -25,22 +25,22 @@ namespace Test.ImageCollector
         public void FileIsNotRar()
         {
             string outputDir = "CbrTest2";
-            Assert.Throws<System.FormatException>(() => ImageExporter.UnRar(Samples.TESTPATH, outputDir));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnRar(Samples.Testpath, outputDir));
         }
 
         [Fact]
         public void FileNotFound()
         {
             string outputDir = "CbrTest3";
-            Assert.Throws<FileNotFoundException>(() => ImageExporter.UnRar(Samples.FAKEFILE, outputDir));
+            Assert.Throws<FileNotFoundException>(() => ImageExporter.UnRar(Samples.Fakefile, outputDir));
         }
 
         [Fact]
         public void EmptyAttributeDirectory()
         {
             string outputDir = "CbrTest4";
-            ImageExporter.UnRar(Samples.CBRPATH, outputDir);
-            ImageExporter.UnRar(Samples.CBRPATH);
+            ImageExporter.UnRar(Samples.Cbrpath, outputDir);
+            ImageExporter.UnRar(Samples.Cbrpath);
 
             List<string> filesExtracted = [.. Directory.GetFiles(".")];
 
@@ -58,7 +58,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<System.FormatException>(() => ImageExporter.UnRar(Samples.CBRPATH, ""));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnRar(Samples.Cbrpath, ""));
         }
     }
 }

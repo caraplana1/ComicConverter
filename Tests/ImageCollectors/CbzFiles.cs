@@ -12,7 +12,7 @@ namespace Test.ImageCollector
         {
             const string path = "ZipExportDir";
 
-            ImageExporter.UnZip(Samples.CBZPATH, path); // Descompress File.
+            ImageExporter.UnZip(Samples.Cbzpath, path); // Descompress File.
 
             Assert.True(Directory.Exists(path)); // Makes sure the directory is created.
 
@@ -25,7 +25,7 @@ namespace Test.ImageCollector
         [Fact]
         public void FileIsNotZip()
         {
-            Assert.Throws<System.FormatException>(() => ImageExporter.UnZip(Samples.TESTPATH));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnZip(Samples.Testpath));
         }
 
         [Fact]
@@ -40,9 +40,9 @@ namespace Test.ImageCollector
             const string folderToCompare = "TestCbzFolderToCompare";
 
             // Extract the same file in the current directory and in the output directoty
-            ImageExporter.UnZip(Samples.CBZPATH);
+            ImageExporter.UnZip(Samples.Cbzpath);
             List<string> filesExtracted = [.. Directory.GetFiles(".")];
-            ImageExporter.UnZip(Samples.CBZPATH, folderToCompare);
+            ImageExporter.UnZip(Samples.Cbzpath, folderToCompare);
 
             // Get a list of all files in current directory
 
@@ -59,7 +59,7 @@ namespace Test.ImageCollector
         [Fact]
         public void EmptyStringDirectory()
         {
-            Assert.Throws<System.FormatException>(() => ImageExporter.UnZip(Samples.CBZPATH, ""));
+            Assert.Throws<System.FormatException>(() => ImageExporter.UnZip(Samples.Cbzpath, ""));
         }
     }
 }

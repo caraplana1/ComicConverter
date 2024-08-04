@@ -7,27 +7,27 @@ namespace Test.ComicCreators
 {
     public class PdfFiles
     {
-        private const string path = "pdftestBuild";
+        private const string Path = "pdftestBuild";
 
         [Fact]
         public void CreatePdf()
         {
-            var images = Directory.GetFiles(Samples.IMAGESDIR);
+            var images = Directory.GetFiles(Samples.Imagesdir);
 
-            ComicBuilder.CreatePdf(images, path);
+            ComicBuilder.CreatePdf(images, Path);
 
-            Assert.True(File.Exists($"{path}.pdf"));
+            Assert.True(File.Exists($"{Path}.pdf"));
 
-            File.Delete($"{path}.pdf");
+            File.Delete($"{Path}.pdf");
         }
 
         [Fact]
         public void FilesAreNotImages()
         {
-            var images = Directory.GetFiles(Samples.IMAGESDIR);
-            images = [.. images, Samples.FAKEIMAGE];
+            var images = Directory.GetFiles(Samples.Imagesdir);
+            images = [.. images, Samples.Fakeimage];
 
-            Assert.ThrowsAny<Exception>(() => ComicBuilder.CreatePdf(images, path));
+            Assert.ThrowsAny<Exception>(() => ComicBuilder.CreatePdf(images, Path));
         }
     }
 }
