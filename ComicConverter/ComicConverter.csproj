@@ -5,7 +5,7 @@
 		<LangVersion>9.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>ComicConverter</PackageId>
-		<Version>2.2.0</Version>
+		<Version>2.2.1</Version>
 		<Description>Package for comics formats convertions.</Description>
 		<PackageTags>comics, convert, formats, files</PackageTags>
 		<RepositoryUrl>https://github.com/caraplana1/ComicConverter</RepositoryUrl>
